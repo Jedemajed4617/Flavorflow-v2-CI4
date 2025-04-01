@@ -1,0 +1,242 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
+:root {
+    --accent-color: #A21C10;
+    --accent-color-lighter: rgba(162, 28, 16, 0.7);
+    --accent-color-lightest: rgba(162, 28, 16, 0.5);
+    --subheading-color: #747474;
+    --subheading-color-lighter: #939393;
+    --shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.restaurant-basket, .flag, .account-icon{
+    display: none !important;
+}
+
+.paymentcontainer {
+    width: 100%;
+    min-height: 75vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.payment-header{
+    width: 95vw;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.payment-header > h1{
+    font-size: 2.5rem;
+    color: var(--accent-color);
+    font-family: "Oswald", sans-serif;
+}
+
+.payment-header > p{
+    font-size: 1.5rem;
+    color: var(--subheading-color-lighter);
+}
+
+.payment-list {
+    width: 95vw;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    gap: 5rem;
+    padding: 5rem;
+}
+
+.payment-methods{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.paymentmethod {
+    width: 100%;
+    height: 10rem;
+    border: 2px solid var(--subheading-color);
+    display: flex;
+    align-items: center;
+    border-radius: 1rem;
+    min-width: 300px;
+    cursor: pointer;
+}
+
+.paymentmethod.selected{
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    box-shadow: var(--shadow);
+}
+
+.payment-iconcontainer {
+    width: auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.payment-iconcontainer > i {
+    font-size: 3rem;
+    padding: 2rem;
+    border: none;
+    color: var(--subheading-color);
+}
+
+.payment-iconcontainer > i.selected {
+    color: var(--accent-color);
+}
+
+.payment-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.payment-content h1 {
+    font-size: 2.5rem;
+    color: var(--subheading-color);
+}
+
+.payment-content h1.selected {
+    color: var(--accent-color);
+}
+
+.payment-content i {
+    font-size: 3rem;
+    padding: 2rem;
+    color: var(--subheading-color);
+    display: none;
+}
+
+.payment-content i.selected {
+    display: block; /* Shows the checkmark icon when the 'selected' class is added */
+    color: var(--accent-color); /* Adjust the color if needed */
+}
+
+
+/* Button */
+.payment-buttoncontainer{
+    width: 95vw;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.payment-buttoncontainer > p{
+    position: relative;
+    font-size: 1.5rem;
+    color: var(--subheading-color-lighter);
+    user-select: none;
+}
+
+.payment-buttoncontainer > p > i{
+    position: absolute;
+    color: var(--accent-color-lightest);
+    padding-left: 0.2rem;
+    font-size: 1rem;
+    user-select: none;
+}
+
+.payment-button {
+    width: 25rem;
+    height: 4rem;
+    background-color: grey; /* Default: Disabled state */
+    color: white;
+    border-radius: 5rem;
+    cursor: not-allowed;/* Prevents interaction when disabled */
+    pointer-events: none; /* Stops clicks when no payment is selected */
+    transition: background-color 0.3s ease;
+}
+
+/* Active state when a payment method is selected */
+.payment-button.active {
+    background-color: var(--accent-color-lighter);
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+.payment-button.active:hover {
+    background-color: var(--accent-color);
+}
+
+/* Disabled button hover effect */
+.payment-button:hover:not(.active) {
+    cursor: not-allowed;
+}
+
+
+@media screen and (max-width: 675px){
+    .payment-methods{
+        flex-wrap: wrap;
+    }
+
+    .payment-list{
+        flex-wrap: wrap;
+    }
+}
+
+@media screen and (max-width: 450px){
+    .payment-iconcontainer > i {
+        font-size: 2rem;
+        padding: 2rem;
+    }
+
+    .payment-content h1 {
+        font-size: 1.5rem;
+    }
+
+    .payment-content i {
+        font-size: 2rem;
+        padding: 2rem;
+    }
+    
+    .paymentmethod{
+        height: 8rem;
+        min-width: 100px;
+    }
+
+    .payment-list{
+        padding: 3rem;
+        gap: 2rem;
+    }
+
+    .payment-header > h1{
+        font-size: 1.7rem;
+        color: var(--accent-color);
+    }
+    
+    .payment-header > p{
+        font-size: 1.2rem;
+        color: var(--subheading-color-lighter);
+    }
+
+    .payment-button{
+        width: 15rem;
+        height: 3.5rem;
+        font-size: 1.2rem;
+    }
+
+    .payment-buttoncontainer > p{
+        position: relative;
+        font-size: 1.2rem;
+        color: var(--subheading-color-lighter);
+        user-select: none;
+    }
+    
+    .payment-buttoncontainer > p > i{
+        position: absolute;
+        color: var(--accent-color-lightest);
+        padding-left: 0.2rem;
+        font-size: 0.8rem;
+    }
+}

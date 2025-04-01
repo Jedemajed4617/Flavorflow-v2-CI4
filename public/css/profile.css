@@ -1,0 +1,1133 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
+:root {
+    --accent-color: #a21c10;
+    --accent-color-lighter: rgba(162, 28, 16, 0.7);
+    --accent-color-lightest: rgba(162, 28, 16, 0.5);
+    --subheading-color: #747474;
+    --subheading-color-lighter: #939393;
+    --shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    --button-green: #1ba210;
+    --button-green-lighter: #1ca210c2;
+}
+
+.active {
+    color: var(--accent-color) !important;
+}
+
+@keyframes popup {
+    from {
+        transform: translateY(2rem);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Profile page */
+
+.profile {
+    width: 100%;
+    display: flex;
+    min-height: 90vh;
+}
+
+.profile-navigation {
+    width: auto;
+    min-width: 200px;
+    height: auto;
+    border-right: 1px solid #e0e0e0;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+}
+
+.profile-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-header {
+    width: 100%;
+    display: flex;
+}
+
+.profile-header > h1 {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 1.7rem;
+    color: black;
+    font-weight: bold;
+}
+
+.profile-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+}
+
+.profile-listitem {
+    width: 100%;
+}
+
+.profile-listitem-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding-left: 1rem;
+}
+
+.profile-listitem-container > i {
+    font-size: 2rem;
+    width: 2rem;
+}
+
+.profile-listitem-container > a {
+    font-size: 1.5rem;
+    font-family: sans-serif;
+    font-weight: 300;
+    font-family: "Oswald", sans-serif;
+}
+
+@media screen and (max-width: 650px) {
+    .profile {
+        display: none;
+    }
+
+    .phone-profile {
+        display: flex;
+    }
+
+    .header {
+        display: none !important;
+    }
+}
+
+/* Profile content */
+
+.profile-content {
+    width: 100%;
+    padding: 5rem;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+}
+
+@media screen and (max-width: 700px){
+    .profile-content{
+        padding: 2rem;
+    }
+}
+
+.profile-info {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-headercontainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--subheading-color-lighter);
+    padding-bottom: 0.5rem;
+    /* Apply animation */
+    animation: popup 0.8s backwards;
+    animation-delay: calc(0.1s * var(--index));
+    transition: transform 0.2s;
+}
+
+.profile-headerheading > h1 {
+    color: var(--accent-color-lighter);
+    font-size: 2.5rem;
+    font-family: "Oswald", sans-serif;
+    /* Apply animation */
+    animation: popup 0.8s backwards;
+    animation-delay: calc(0.1s * var(--index));
+    transition: transform 0.2s;
+}
+
+.profile-headerheading > p {
+    font-size: 1.2rem;
+    /* Apply animation */
+    animation: popup 0.8s backwards;
+    animation-delay: calc(0.1s * var(--index));
+    transition: transform 0.2s;
+}
+
+.profile-info-list {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-top: 2rem;
+    /* Apply animation */
+    animation: popup 0.8s backwards;
+    animation-delay: calc(0.1s * var(--index));
+    transition: transform 0.2s;
+}
+
+.profile-info-listitem {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr; /* Adjust column widths as needed */
+    width: 100%;
+    height: 5rem;
+    align-items: center; /* Vertically align items in the grid */
+    gap: 1rem; /* Space between columns */
+    border-bottom: 1px solid var(--subheading-color-lighter);
+    /* Apply animation */
+    animation: popup 0.8s backwards;
+    animation-delay: calc(0.1s * var(--index));
+    transition: transform 0.2s;
+}
+
+.profile-info-listitem > a {
+    color: var(--accent-color);
+    text-decoration: underline;
+    text-align: right;
+}
+
+.adminnotvisiblemsg{
+    color: var(--accent-color); 
+    font-size: 2rem; 
+    font-family: inherit; 
+    text-align: center; 
+    display: flex; 
+    flex-direction: column;
+    display: none;
+    /* Apply animation */
+    animation: popup 0.8s backwards;
+    animation-delay: calc(0.1s * var(--index));
+    transition: transform 0.2s;
+}
+
+.adminnotvisiblemsg > small{
+    font-size: 1.2rem;
+    color: var(--subheading-color);
+}
+
+@media screen and (max-width: 800px) {
+    .profile-info-listitem {
+        grid-template-columns: 2fr 2fr 1fr; /* Adjust column widths as needed */
+    }
+}
+
+/* Orderspage */
+.order-info-headers {
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 1fr 0.5fr 0.3fr 0.5fr;
+    padding-top: 0.5rem;
+    /* Apply animation */
+    animation: popup 0.8s backwards;
+    animation-delay: calc(0.1s * var(--index));
+    transition: transform 0.2s;
+}
+
+.order-info-header {
+    font-size: 1.2rem;
+}
+
+.order-info-listitem {
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 1fr 0.5fr 0.3fr 0.5fr;
+    width: 100%;
+    height: 5rem;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid var(--subheading-color-lighter);
+    /* Apply animation */
+    animation: popup 0.8s backwards;
+    animation-delay: calc(0.1s * var(--index));
+    transition: transform 0.2s;
+}
+
+.order-info-listitem > a {
+    text-align: right;
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+/* Notifications page */
+
+.notification-info-headers {
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 2fr 2fr 1fr;
+    padding-top: 0.5rem;
+    /* Apply animation */
+    animation: popup 0.8s backwards;
+    animation-delay: calc(0.1s * var(--index));
+    transition: transform 0.2s;
+}
+
+.notification-info-header {
+    font-size: 1.2rem;
+}
+
+.notification-info-listitem {
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 2fr 2fr 1fr;
+    width: 100%;
+    height: 5rem;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid var(--subheading-color-lighter);
+    /* Apply animation */
+    animation: popup 0.8s backwards;
+    animation-delay: calc(0.1s * var(--index));
+    transition: transform 0.2s;
+}
+
+.notification-info-listitem > p {
+    display: flex;
+    flex-direction: column;
+}
+
+.notification-info-listitem > a {
+    text-align: right;
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+/* Stamps page */
+
+.stamp-info-headers {
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 0.5fr 0.5fr 0.5fr;
+    padding-top: 0.5rem;
+    /* Apply animation */
+    animation: popup 0.8s backwards;
+    animation-delay: calc(0.1s * var(--index));
+    transition: transform 0.2s;
+}
+
+.stamp-info-header {
+    font-size: 1.2rem;
+}
+
+.stamp-info-listitem {
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 0.5fr 0.5fr 0.5fr;
+    width: 100%;
+    height: 5rem;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid var(--subheading-color-lighter);
+    /* Apply animation */
+    animation: popup 0.8s backwards;
+    animation-delay: calc(0.1s * var(--index));
+    transition: transform 0.2s;
+}
+
+.stamp-info-listitem > p {
+    display: flex;
+    flex-direction: column;
+}
+
+.stamp-info-listitem > a {
+    text-align: right;
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+/* Admin segment*/
+.order-filters {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.searchbar {
+    width: auto;
+    position: relative;
+}
+
+.searchbar > input {
+    width: 25rem;
+    height: 3rem;
+    padding: 0.5rem;
+    padding-left: 2.5rem;
+    border: 2px solid var(--accent-color);
+    border-radius: 2rem;
+}
+
+.searchbar > i {
+    position: absolute;
+    top: 25%;
+    left: 0.8rem;
+    font-size: 1.5rem;
+    color: var(--accent-color);
+}
+
+.refreshcontainer {
+    display: flex;
+    align-items: center;
+}
+
+.refresh {
+    width: 3rem;
+    height: 3rem;
+    background: none;
+    border: 2px solid var(--accent-color);
+    border-radius: 50%;
+}
+
+.refresh > i {
+    color: var(--accent-color);
+    font-size: 1.5rem;
+}
+
+.order-filtercontainer {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 8px;
+}
+
+.order-filter {
+    width: 10rem;
+    height: 3rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: 1px solid var(--accent-color);
+    border-radius: 6px;
+    background: var(--background);
+    color: var(--text-color);
+    cursor: pointer;
+    outline: none;
+    transition: 0.2s ease-in-out;
+    font-size: 1.5rem;
+}
+
+.order-filter:hover {
+    border-color: var(--accent-color);
+}
+
+.order-filter:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.admin-info-headers {
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 2fr 1fr 1fr;
+    padding-top: 0.5rem;
+}
+
+.admin-info-header {
+    font-size: 1.2rem;
+    /* animation */
+    animation: popup 0.8s backwards;
+    animation-delay: calc(0.1s * var(--index));
+    transition: transform 0.2s;
+}
+
+.admin-info-listitem {
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 2fr 1fr 1fr;
+    width: 100%;
+    height: 5rem;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid var(--subheading-color-lighter);
+    /* Apply animation */
+    animation: popup 0.8s backwards;
+    animation-delay: calc(0.1s * var(--index));
+    transition: transform 0.2s;
+}
+
+.admin-info-listitem > p {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-info-listitem > a {
+    text-align: right;
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+/*  */
+
+.restaurants-info-headers {
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    padding-top: 0.5rem;
+}
+
+.restaurants-info-header {
+    font-size: 1.2rem;
+    /* animation */
+    animation: popup 0.8s backwards;
+    animation-delay: calc(0.1s * var(--index));
+    transition: transform 0.2s;
+}
+
+.restaurants-info-listitem {
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    width: 100%;
+    height: 5rem;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid var(--subheading-color-lighter);
+    /* Apply animation */
+    animation: popup 0.8s backwards;
+    animation-delay: calc(0.1s * var(--index));
+    transition: transform 0.2s;
+}
+
+.restaurants-info-listitem > p {
+    display: flex;
+    flex-direction: column;
+}
+
+.restaurants-info-listitem > a {
+    text-align: right;
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 1000px) {
+    .admin, .admindisplaynoneby1000px {
+        display: none !important;
+    }
+
+    .adminnotvisiblemsg{
+        display: flex;
+    }
+}
+
+/* Restaurant owner overviews */
+.res-info-headers {
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 1fr 1fr 2fr 1fr 1fr;
+    padding-top: 0.5rem;
+    /* Apply animation */
+    animation: popup 0.8s backwards;
+    animation-delay: calc(0.1s * var(--index));
+    transition: transform 0.2s;
+}
+
+.res-info-header {
+    font-size: 1.2rem;
+}
+
+.res-info-listitem {
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 1fr 1fr 2fr 1fr 1fr;
+    width: 100%;
+    height: 5rem;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid var(--subheading-color-lighter);
+    /* Apply animation */
+    animation: popup 0.8s backwards;
+    animation-delay: calc(0.1s * var(--index));
+    transition: transform 0.2s;
+}
+
+.res-info-listitem > p {
+    display: flex;
+    flex-direction: column;
+}
+
+.res-info-listitem > a {
+    text-align: right;
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+/* Product owner overview */
+.product-info-headers {
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.5fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    padding-top: 0.5rem;
+    /* Apply animation */
+    animation: popup 0.8s backwards;
+    animation-delay: calc(0.1s * var(--index));
+    transition: transform 0.2s;
+}
+
+.product-info-header {
+    font-size: 1.2rem;
+}
+
+.product-info-listitem {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.5fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    width: 100%;
+    height: 5rem;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid var(--subheading-color-lighter);
+    /* Apply animation */
+    animation: popup 0.8s backwards;
+    animation-delay: calc(0.1s * var(--index));
+    transition: transform 0.2s;
+}
+
+.product-info-listitem > p {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-info-listitem > a {
+    text-align: right;
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+/* Profile phone */
+.phone-profile {
+    width: 100%;
+    height: auto;
+    min-height: 95vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    display: none;
+}
+
+.phone-profile-header {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    padding-bottom: 4rem;
+}
+
+.phone-profile-header > h1 {
+    font-size: 2rem;
+    color: var(--accent-color);
+    font-family: "Oswald", sans-serif;
+}
+
+.phone-profile-header > i {
+    font-size: 2rem;
+    padding-top: 0.5rem;
+    color: var(--accent-color);
+}
+
+.phone-profile-info {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.phone-profile-info-list {
+    width: 90vw;
+    height: auto;
+    display: flex;
+    gap: 2rem;
+}
+
+.phone-profile-info-listitem {
+    position: relative;
+    /* Apply animation */
+    animation: popup 0.8s backwards;
+    animation-delay: calc(0.1s * var(--index));
+    transition: transform 0.2s;
+}
+
+.phone-profile-info-figure {
+    width: 75px; /* Set the desired width */
+    height: 75px; /* Set the desired height (same as width for 1:1 aspect ratio) */
+    position: relative;
+    border-radius: 50%; /* Apply the circular border-radius to the container */
+    box-shadow: var(--shadow);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.phone-profile-info-figure > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image covers the container without distortion */
+    border-radius: 50%; /* Apply the circular border-radius to the image itself */
+}
+
+.phone-profile-info-figureicon {
+    width: 3rem;
+    height: 3rem;
+    position: absolute;
+    bottom: 0;
+    right: -10%;
+    z-index: 999;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.phone-profile-info-figureicon > i {
+    font-size: 1.5rem;
+    color: var(--accent-color-lighter);
+}
+
+.phone-profile-info-listitem {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    /* Apply animation */
+    animation: popup 0.8s backwards;
+    animation-delay: calc(0.1s * var(--index));
+    transition: transform 0.2s;
+}
+
+.phone-profile-info-listitem > b {
+    color: var(--accent-color);
+    font-size: 1.5rem;
+}
+
+.phone-profile-info-listitem > p {
+    color: var(--subheading-color);
+}
+
+.phone-profile-info-listitem > button {
+    width: 10rem;
+    height: 2rem;
+    background-color: var(--accent-color-lighter);
+    color: white;
+    font-size: 1rem;
+    border-radius: 2rem;  
+}
+
+.phone-profile-navigation{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    padding-top: 5rem;
+}
+
+.phone-profile-navigation-item{
+    width: 90vw;
+    height: 7rem;
+    border-bottom: 1px solid var(--accent-color-lighter);
+    display: flex;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--subheading-color);
+    /* Apply animation */
+    animation: popup 0.8s backwards;
+    animation-delay: calc(0.1s * var(--index));
+    transition: transform 0.2s;
+}
+
+.phone-profile-navigation-item> i{
+    font-size: 2rem;
+}
+
+.phone-profile-itemcontent{
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.phone-profile-itemcontent > i{
+    font-size: 2.5rem;
+}   
+
+.phone-profile-itemcontent > a{
+    font-size: 1.7rem;
+    font-family: "Oswald", sans-serif;
+}
+
+/* Edit profile */
+.phone-profile-headerbewerk{
+    width: 100%;
+    height: auto;
+    display: flex;
+    background-image: url("../img/banner-food.webp");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.2);
+    flex-direction: column; 
+    gap: 7rem;
+}
+
+.phone-profile-headerbewerk > i{
+    color: white;
+    padding: 1rem;
+    font-size: 2rem;
+}
+
+.phone-profile-contentcontainer{
+    background-color: white;
+    padding: 3rem;
+    border-top-left-radius: 5rem;
+    border-top-right-radius: 5rem;
+    position: relative;
+}
+
+.phone-profile-imagecontainer{
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.phone-profile-image{
+    width: 75px; /* Set the desired width */
+    height: auto; /* Set the desired height (same as width for 1:1 aspect ratio) */
+    border-radius: 50%; /* Apply the circular border-radius to the container */
+    z-index: 999;
+    padding-bottom: 1.5rem;
+}
+
+.phone-profile-image > img{
+    width: 75px;
+    height: 75px;
+    object-fit: cover; /* Ensures the image covers the container without distortion */
+    border-radius: 50%; /* Apply the circular border-radius to the image itself */
+    position: absolute;
+    top: -35px;
+    box-shadow: var(--shadow);
+}
+
+.phone-profile-headeredit{
+    width: 100%;
+    height: auto;
+    display: flex;
+    border-bottom: 1px solid var(--accent-color-lighter);
+    justify-content: space-between;
+    padding-bottom: 1rem;
+}
+
+.phone-profile-headereditcontainer{
+    padding-top: 0.5rem;
+}
+
+.phone-profile-headereditcontainer > button{
+    width: 3rem;
+    height: 3rem;
+    border: 1px solid var(--accent-color-lighter);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: var(--shadow);
+}
+
+.phone-profile-headereditcontainer > button > i{
+    font-size: 1.7rem;
+    color: var(--accent-color-lighter);
+}
+
+.phone-profile-headeredit > h1{
+    color: var(--accent-color-lighter);
+    font-size: 2rem;
+    font-family: "Oswald", sans-serif;
+}
+
+.phone-profile-inputlist{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    gap: 3rem;
+    padding-top: 2rem;
+}
+
+.profile-icon{
+    position: absolute;
+    right: 1rem;
+    top: 30%;
+    font-size: 1.5rem;
+    color: var(--accent-color);
+}
+
+.profile-icon:hover{
+    cursor: pointer;
+}
+
+.phone-info-headers{
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 1fr 0.5fr;
+    padding-top: 0.5rem;
+}
+
+.phone-info-header{
+    font-size: 1.2rem;
+}
+
+.phone-info-listitem{
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 1fr 0.5fr;
+    width: 100%;
+    height: 5rem;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid var(--subheading-color-lighter);
+    font-size: 0.7rem;
+    /* Apply animation */
+    animation: popup 0.8s backwards;
+    animation-delay: calc(0.1s * var(--index));
+    transition: transform 0.2s;
+}
+
+@media screen and (max-width: 650px){
+    .phone-profile{
+        display: flex;
+    }
+}
+
+/* Profile img dashboard */
+.profile-imgcontainer{
+    width: auto;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    margin-right: 2rem;
+    margin-left: 2rem;
+}
+
+.profile-img{
+    width: 5rem;
+    height: 5rem;
+    background-color: white;
+    border: 1px solid var(--accent-color-lighter);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.profile-img > img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.profile-edit-icon{
+    font-size: 3rem;
+    color: var(--accent-color);
+}
+
+.profile-img > .edit-profile-button{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--accent-color);
+}
+
+.profile-img > .edit-profile-button:hover{
+    background-color: var(--accent-color);
+    color: white;
+    cursor: pointer;
+}
+
+/* Product img edit */
+.moreinfo-figureicon{
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    background-color: white;
+    width: 4rem;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: var(--shadow);
+}
+
+.moreinfo-figureicon > i{
+    font-size: 2rem;
+    color: var(--accent-color);
+}
+
+
+/* Adresspage */
+.address-headerheading{
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+    /* Apply animation */
+    animation: popup 0.8s backwards;
+    animation-delay: calc(0.1s * var(--index));
+    transition: transform 0.2s;
+}
+
+.address-headertext{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.address-headertext > h1{
+    font-size: 2.5rem;
+    color: var(--accent-color-lighter);
+    font-family: "Oswald", sans-serif;
+}
+
+.address-headertext > p{
+    font-size: 1.2rem;
+    color: black;
+}
+
+.address-headericon{
+    width: auto;
+    height: 100%;
+    display: flex;
+    align-items: end;
+}
+
+.address-headericon > i{
+    font-size: 2.5rem;
+    color: var(--accent-color);
+    padding-bottom: 0.5rem;
+    padding-right: 1rem;
+}
+
+.address-headericon > i:hover{
+    color: var(--accent-color-lightest);
+    cursor: pointer;
+}
+
+.adres-container{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.adres-header{
+    width: 100%;
+    height: auto;
+    padding-bottom: 2rem;
+}
+
+.adres-header > h1 {
+    font-size: 2.2rem;
+    color: var(--accent-color-lighter);
+    font-family: "Oswald", sans-serif;
+}
+
+@keyframes popup {
+    from {
+        transform: translateY(2rem);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.adres-deliverycontainer,
+.adres-billcontainer {
+    display: flex;
+    width: 100%;
+    height: auto;
+    gap: 3rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.adres-listitem {
+    width: 20rem;
+    height: 20rem;
+    background-color: rgb(255, 249, 238);
+    border-radius: 1rem;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    justify-content: space-between;
+    /* Apply animation */
+    animation: popup 0.8s backwards;
+    animation-delay: calc(0.1s * var(--index));
+    transition: transform 0.2s;
+}
+
+.adres-listitem-header {
+    width: 100%;
+    height: auto;
+}
+
+.adres-listitem-header > b {
+    font-size: 1.7rem;
+    color: var(--accent-color-lightest);
+}
+
+.adres-listdata {
+    padding: 1rem;
+}
+
+.adres-listdata > p {
+    text-transform: capitalize;
+    font-size: 1.3rem;
+    line-height: 25px;
+}
+
+.adres-listbutton{
+    color: black;
+    font-size: 1.2rem;
+}
+
+.adres-listbutton:hover{
+    color: var(--accent-color);
+}
+
+@media screen and (max-width: 510px){
+    .adres-listitem{
+        width: 100%;
+        height: 15rem;
+    }
+
+    .adres-listdata > p {
+        line-height: 20px;
+    }
+}

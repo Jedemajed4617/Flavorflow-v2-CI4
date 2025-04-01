@@ -1,0 +1,524 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
+:root {
+    --accent-color: #A21C10;
+    --accent-color-lighter: rgba(162, 28, 16, 0.7);
+    --accent-color-lightest: rgba(162, 28, 16, 0.5);
+    --subheading-color: #747474;
+    --subheading-color-lighter: #939393;
+    --shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Header segment */
+.restaurant-container{
+    width: 100%;
+    min-height: 100vh;
+    height: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.restaurant{
+    width: 95vw;
+    height: auto;
+}
+
+.restaurant-heading{
+    width: 100%;
+    height: 150px;
+    display: flex;
+    gap: 0.5rem;
+    padding-bottom: 2rem;
+    justify-content: space-between;
+}
+
+.restaurant-headercontainer{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.restaurant-header{
+    width: 100%;
+    height: auto;
+    text-align: left;
+    padding-top: 0.5rem;
+}
+
+.restaurant-header > h1{
+    font-size: 2.5rem;
+    color: var(--accent-color-lighter);
+    font-family: "Oswald", sans-serif;
+}
+
+.restaurant-info{
+    display: flex;
+    gap: 2rem;
+    padding-left: 0.5rem;
+}
+
+.restaurant-buttons{
+    display: flex;
+    gap: 2rem;
+    height: 100%;
+    align-items: center;
+}
+
+.product-search{
+    width: 25rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.product-search > input{
+    width: 100%;
+    height: 3.5rem;
+    padding-left: 3rem;
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    border: 1px solid var(--accent-color-lighter);
+    border-radius: 0.5rem;
+}
+
+.product-search > input:focus{
+    box-shadow: 2px 2px 4px var(--accent-color-lightest);
+}
+
+.product-search > button{
+    position: absolute;
+    left: 1rem;
+    top: 44%;
+}
+
+.product-search > button > i{
+    color: var(--accent-color-lightest);
+    font-size: 1.5rem;
+}
+
+.restaurant-basket{
+    width: auto;
+    height: auto;
+}
+
+.restaurant-basket > i{
+    font-size: 3rem;
+    color: var(--accent-color-lighter);
+}
+
+.restaurant-basket > i:hover{
+    color: var(--accent-color);
+    cursor: pointer;
+}
+
+.restaurant-infolist{
+    display: flex;
+    flex-direction: column;
+}
+
+.restaurant-infolist > li{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    color: var(--subheading-color);
+}
+
+.restaurant-infolist > li > i{
+    font-size: 1.5rem;
+    color: var(--accent-color-lightest);
+}   
+
+.restaurant-infolist > li > p{
+    font-size: 1.7rem;
+}
+
+.fa-bag-shopping{
+    padding-left: 2px;
+}
+
+.restaurant-search{
+    width: 100%;
+    height: 4rem;
+    position: relative;
+    margin-top: 1rem;
+}
+
+.restaurant-search > input{
+    width: 100%;
+    height: 100%;
+    border-radius: 1rem;
+    border: 1px solid var(--accent-color-lighter);
+    box-shadow: 0 3px 5px transparent;
+    padding-left: 4rem;
+    display: flex;
+    align-items: center;
+    font-size: 1.7rem;
+    color: var(--subheading-color);
+}
+
+.restaurant-search > input:focus{
+    box-shadow: 2px 2px 4px var(--accent-color-lightest);
+}
+
+.restaurant-search > input::placeholder{
+    font-size: 1.5rem;
+    color: var(--subheading-color-lighter);
+}
+
+.restaurant-search > button{
+    position: absolute;
+    left: 1rem;
+    top: 25%;
+}
+
+.restaurant-search > button > i{
+    font-size: 2rem;
+    color: var(--accent-color-lighter);
+}
+
+@media screen and (max-width: 800px){
+    .restaurant-heading{
+        height: auto;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+
+    .restaurant-search > button{
+        position: absolute;
+        left: 1rem;
+        top: 15%;
+    }
+
+    .restaurant-buttons{
+        height: 3rem;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .product-search > button{
+        top: 25%;
+    }
+}
+
+@media screen and (max-width: 500px){
+    .restaurant-search > input{
+        font-size: 1.5rem;
+    }
+
+    .restaurant-search > input::placeholder{
+        font-size: 1.3rem;
+    }
+
+    .restaurant-infolist > li > p, .restaurant-infolist > li > i{
+        font-size: 1rem;
+    }
+
+    .restaurant-search{
+        width: 100%;
+        height: 3rem;
+        margin-top: 0.5rem;
+    }
+
+    .restaurant-search > button > i{
+        font-size: 1.6rem;
+        color: var(--accent-color-lighter);
+    }
+
+    .restaurant-search > input{
+        padding-left: 3.5rem;
+    }
+
+    .restaurant-header > h1{
+        font-size: 2rem;
+    }
+
+    .restaurant-heading{
+        gap: 1rem;
+    }
+
+    .restaurant-buttons{
+        height: 3rem;
+    }
+
+    .product-search > input{
+        width: 100%;
+        height: 2.5rem;
+        padding-left: 3rem;
+        font-size: 1.2rem;
+    }
+
+    .restaurant-basket > i{
+        font-size: 2.5rem;
+    }
+}
+
+@media screen and (max-width: 400px){
+    .restaurant-header > h1{
+        font-size: 1.4rem;
+    }
+
+    .restaurant-infolist > li > p, .restaurant-infolist > li > i{
+        font-size: 0.8rem;
+    }
+}
+
+/* Popular categories segment */
+.restaurant-slider{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.restaurant-sliderheader{
+    width: 100%;
+    height: auto;
+    text-align: left;
+}
+
+.restaurant-sliderheader > h1{
+    font-size: 2.5rem;
+    color: var(--accent-color-lighter);
+    font-family: "Oswald", sans-serif;
+}
+
+.restaurant-slidercontainer{
+    width: 100%;
+    display: flex;
+}
+
+.restaurant-sliderlist{
+    width: 100%;
+    display: flex;
+    gap: 2rem;
+    overflow: hidden;
+    padding-bottom: 2rem;
+    padding-left: 0.5rem;
+}
+
+.restaurant-slideritem{
+    display: flex;
+    flex-direction: column;
+    width: 20rem;
+    height: 12rem;
+    box-shadow: var(--shadow);
+    border-radius: 1rem;
+    position: relative;
+    flex: 0 0 auto;
+    user-select: none; 
+    cursor: pointer;
+}
+
+.restaurant-slideritem > p{
+    width: 100%;
+    height: 25%;
+    text-align: center;
+    font-size: 1.5rem;
+    color: var(--subheading-color);
+    font-family: "Oswald", sans-serif;
+}
+
+.restaurant-slideritem > button{
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+
+.restaurant-slideritem > button > i{
+    font-size: 2rem;
+    color: var(--accent-color);
+}
+
+.restaurant-sliderfigure{
+    width: 100%;
+    height: 75%;
+}
+
+.restaurant-sliderfigure > img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    background-size: cover; /* Fallback */
+    background-position: center;
+}
+
+.restaurant-slidercontainer {
+    width: 100%;
+    display: flex;
+    overflow-x: auto;
+    scrollbar-color: transparent transparent;
+}
+
+.restaurant-sliderlist {
+    width: 100%;
+    display: flex;
+    gap: 2rem;
+    overflow-x: auto;
+    padding-bottom: 2rem;
+}
+
+/* Hide scrollbar on larger screens */
+@media screen and (max-width: 500px){
+    .restaurant-sliderheader > h1{
+        font-size: 2rem;
+    }
+    
+    .restaurant-slideritem{
+        display: flex;
+        flex-direction: column;
+        width: 15rem;
+        height: 8rem;
+    }
+
+    .restaurant-slideritem > p{
+        font-size: 1.2rem;
+    }
+}
+
+@media screen and (max-width: 400px){
+    .restaurant-sliderheader > h1{
+        font-size: 1.4rem;
+    }
+    
+    .restaurant-slideritem{
+        display: flex;
+        flex-direction: column;
+        width: 12rem;
+        height: 6rem;
+    }
+
+    .restaurant-slideritem > p{
+        font-size: 0.8rem;
+    }
+
+    .restaurant-sliderlist{
+        gap: 1rem;
+    }
+
+    .restaurant-slideritem > button > i{
+        font-size: 1.7rem;
+        color: var(--accent-color);
+    }
+}
+
+/* Products segment */
+.products-itemlist{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.products-item{
+    width: 100%;
+    height: 8rem;
+    border: 1px solid var(--accent-color-lightest);
+    display: flex;
+    border-radius: 1rem;
+}
+
+.products-imgcontainer{
+    width: auto;
+    height: 100%;
+    padding: 0.5rem;
+}   
+
+.products-imgcontainer > img{
+    height: 100%;
+    width: 100px;
+    object-fit: contain;
+}
+
+.products-contentcontainer{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.products-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.products-content > h1{
+    font-size: 1.7rem;
+    color: var(--accent-color-lighter);
+    font-family: "Oswald", sans-serif;
+}
+
+.products-rating{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.products-rating > i{
+    font-size: 1.5rem;
+    color: var(--accent-color-lightest);
+}
+
+.products-rating > p{
+    font-size: 1.3rem;
+    color: var(--subheading-color-lighter);
+    padding-left: 0.5rem;
+}
+
+.products-buttoncontainer{
+    width: auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-right: 1rem;
+}
+
+.products-button{
+    width: 4rem;
+    height: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.products-button > i{
+    font-size: 3rem;
+    color: var(--accent-color);
+}
+
+.products-button > i:hover{
+    color: var(--accent-color-lightest);
+    cursor: pointer;
+}
+
+@media screen and (max-width: 400px){
+    .products-item{
+        width: 100%;
+        height: 6rem;
+    }
+
+    .products-content > h1{
+        font-size: 1.4rem;
+    }
+
+    .products-rating > p{
+        font-size: 1rem;
+    }
+
+    .products-button > i{
+        font-size: 2.2rem;
+    }
+
+    .products-itemlist{
+        gap: 1rem;
+    }
+}

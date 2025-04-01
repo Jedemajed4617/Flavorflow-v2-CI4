@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
+:root {
+    --accent-color: #A21C10;
+    --accent-color-lighter: rgba(162, 28, 16, 0.7);
+    --accent-color-lightest: rgba(162, 28, 16, 0.5);
+    --subheading-color: #747474;
+    --subheading-color-lighter: #939393;
+    --shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    --button-green: #1BA210;
+    --button-green-lighter: #1ca210c2;
+}
+
+.logincaontainer {  
+    width: 100%;
+    height: auto;
+    min-height: 75vh;
+    display: flex;
+    justify-content: center;
+}  
+
+.login {  
+    width: 95vw;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}  
+
+.loginform {  
+    width: 40vw;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}  
+
+.login-google{
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.login-facebook{
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.loginicon{
+    position: absolute;
+    left: 0;
+    top: 25%;
+    padding-left: 1rem;
+    font-size: 2rem;
+    color: white;
+}
+
+.login-social {  
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-bottom: 1rem;
+}  
+
+.login-facebook > button, .login-google> button {  
+    width: 100%;
+    height: 4rem;
+    background-color: var(--accent-color-lighter);
+    color: white;
+    border-radius: 5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+} 
+
+.login-facebook > button:hover, .login-google > button:hover {  
+    background-color: var(--accent-color);
+}
+
+.sep{
+    padding-bottom: 2rem;
+    padding-top: 1rem;
+}
+
+.seper{
+    margin-bottom: 2rem;
+}
+
+.login-forgot {  
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: start;
+    padding-left: 0.5rem;
+}  
+
+.login-forgot > a:hover {  
+    text-decoration: underline;
+}  
+
+.login-button {  
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;    
+    gap: 1rem;
+    padding-bottom: 2rem;
+    padding-top: 2rem;
+}  
+
+.login-button > button {  
+    width: 100%;
+    height: 4rem;
+    background-color: var(--button-green-lighter);
+    color: white;
+    border-radius: 5rem;
+    font-weight: bold;
+    font-size: 1.5rem;
+}  
+
+.login-button > button:hover {  
+    background-color: var(--button-green);
+}
+
+.login-makeaccount {  
+    width: 100%;
+    height: auto;
+    padding-top: 1rem;
+}  
+
+.login-makeaccount > button{  
+    width: 100%;
+    height: 4rem;
+    background-color: var(--accent-color-lighter);
+    color: white;
+    border-radius: 5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+}  
+
+.login-makeaccount > button:hover {  
+    background-color: var(--accent-color);
+}
+
+.login-privacy {  
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+}  
+
+.login-privacy > p {  
+    font-size: 1rem;
+    color: var(--subheading-color);
+    text-align: center;
+}  
+
+@media screen and (max-width: 900px) {
+    .loginform {  
+        width: 80vw;
+        padding-top: 5rem;
+    }  
+
+    .login-button > button {  
+        width: 75%;
+    }  
+}
+
+@media screen and (max-width: 450px){
+    .loginform {  
+        padding-top: 2rem;
+    }  
+
+    .login-facebook > button, .login-google> button, .login-button > button, .login-makeaccount > button{
+        font-size: 1.2rem;
+    }
+
+    .login-button > button{
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 350px){
+
+    .login-facebook > button, .login-google> button, .login-button > button, .login-makeaccount > button{
+        height: 3rem;
+    }
+
+    .loginicon{
+        font-size: 1.5rem;
+    }
+}

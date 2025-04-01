@@ -1,0 +1,59 @@
+:root {
+    --accent-color: #A21C10;
+    --accent-color-lighter: rgba(162, 28, 16, 0.7);
+    --accent-color-lightest: rgba(162, 28, 16, 0.5);
+    --subheading-color: #747474;
+    --subheading-color-lighter: #939393;
+    --shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    --button-green: #1BA210;
+    --button-green-lighter: #1ca210c2;
+}
+
+.message-container {
+    position: fixed;
+    top: -100px; /* Start off-screen */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--button-green);
+    color: white;
+    padding: 15px 30px;
+    font-size: 16px;
+    border-radius: 5px;
+    width: auto;
+    width: 90%;
+    z-index: 999999999999999;
+    transition: top 0.5s ease-in-out, opacity 0.5s ease;
+    box-shadow: var(--shadow);
+    opacity: 0; /* Initially invisible */
+}
+
+/* Show message with sliding down effect */
+.message-container.show-message {
+    top: 20px; /* Slide down to top of the screen */
+    opacity: 1; /* Make visible */
+}
+
+/* Fade out after 2 seconds */
+.message-container.fade-out {
+    opacity: 0;
+    top: -100px; /* Slide up to off-screen */
+}
+
+/* Green for success, Red for error */
+.message-container.success {
+    color: green;/* Green for success */
+}
+
+.message-container.error {
+    color: red;/* Red for error */
+}
+
+/* Optional: Add a subtle fade effect for the message container */
+.message-container {
+    transition: all 0.5s ease;
+}
+
+/* Optional: Make the message text a bit bolder */
+.message-container p {
+    font-weight: bold;
+}
