@@ -1236,6 +1236,12 @@ $restaurant_id = $session->get('restaurant_id');
             <a href="<?= site_url('account/logout') ?>" class="navbar-logoutbutton">Uitloggen</a>
         </div>
     </main>
+    <div class="footer-container">
+        <div class="footer-copyright" style="width: 100%;">
+            <figure class="copyright-line"></figure>
+            <p class="footer-copyrighttext">© 2025 Flavorflow. Alle rechten voorbehouden.</p>
+        </div>
+    </div>
 </body>
 
 </html>
