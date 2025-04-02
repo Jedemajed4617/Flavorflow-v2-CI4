@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\RestaurantModel;
+use App\Models\UserModel;
 
 class Dashboard extends BaseController
 {
@@ -20,10 +21,12 @@ class Dashboard extends BaseController
 
     public function getOrderoverview($restaurant_id)
     {
-        $restaurantmodel= new RestaurantModel();
+        $restaurantmodel = new RestaurantModel();
         $info = $restaurantmodel->getRestaurantInfo($restaurant_id);
+        $orders = $restaurantmodel->getAllRestaurantOrdersWithTotals($restaurant_id);
+    
         echo view('templates/dashnav');
-        echo view('restaurantdashboard/restaurantorderoverview', ['info' => $info]); 
+        echo view('restaurantdashboard/restaurantorderoverview', ['info' => $info, 'orders' => $orders]);
     }
 
     public function getProductoverview($restaurant_id)

@@ -95,4 +95,34 @@ class RestaurantModel extends Model
         $restaurantinfo = $query->getRowArray();
         return $restaurantinfo;
     }
+
+    public function getAllRestaurantOrdersWithTotals($restaurant_id)
+    {
+        $builder = $this->db->table('orders');
+
+        $builder->select('orders.order_id, orders.user_id, orders.order_date, orders.address, orders.payment_method, orders.fname, orders.lname, orders.email, orders.phone, orders.delivery_method, orders.order_delivery_note, orders.order_food_note, orders.restaurant_id');
+        $builder->select('users.username, users.date_of_birth');
+        $builder->select('restaurants.restaurant_name');
+        $builder->select('SUM(order_dishes.price * order_dishes.quantity) AS total_order_price');
+
+        $builder->join('order_dishes', 'order_dishes.order_id = orders.order_id', 'left');
+        $builder->join('users', 'users.user_id = orders.user_id', 'left');
+        $builder->join('restaurants', 'restaurants.restaurant_id = orders.restaurant_id', 'left');
+
+        $builder->where('orders.restaurant_id', $restaurant_id);
+
+        $builder->groupBy([
+            'orders.order_id', 'orders.user_id', 'orders.order_date', 'orders.address',
+            'orders.payment_method', 'orders.fname', 'orders.lname', 'orders.email',
+            'orders.phone', 'orders.delivery_method', 'orders.order_delivery_note', 'orders.order_food_note', 'orders.restaurant_id',
+            'users.username', 'users.date_of_birth',
+            'restaurants.restaurant_name'
+        ]);
+
+        $builder->orderBy('orders.order_date', 'DESC');
+
+        $query = $builder->get();
+        $orders = $query->getResultArray();
+        return $orders;
+    }
 }

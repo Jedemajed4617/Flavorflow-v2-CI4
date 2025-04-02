@@ -13,15 +13,15 @@ if ($session->get('logged_in')) {
     $gender = $session->get('gender');
     $profileimg = $session->get('profile_img_src');
     $standardaddress = $session->get('standardaddress');
-    $rank = $session->get('user_type'); 
+    $rank = $session->get('user_type');
     $user_id = $session->get('user_id');
 }
 
 if (empty($checkbirthdate)) {
     $birthdate = "Niet ingesteld";
 } else {
-    $birthdate = $checkbirthdate;   
-} 
+    $birthdate = $checkbirthdate;
+}
 
 $restaurant_id = $session->get('restaurant_id');
 
@@ -47,8 +47,108 @@ $restaurant_id = $session->get('restaurant_id');
 </head>
 
 <body>
+    <script>
+        function submitChangePassword(event) {
+            event.preventDefault();
+            const calender = document.querySelector(".password");
+
+            let formData = {
+                old_psw: $("#old-psw").val(),
+                new_psw: $("#new-psw").val(),
+                confirm_new_psw: $("#confirm-new-psw").val(),
+            };
+
+            $.ajax({
+                url: "<?= site_url('account/changepassword') ?>",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                success: function(response) {
+                    if (response['status'] == 'success') {
+                        console.log('Helemaal piem');
+                        showCustomMessage("Wachtwoord is veranderd.", true);
+                        calender.classList.remove("open");
+                    } else {
+                        showCustomMessage(response['message'], false);
+                        formData.reset();
+                        return;
+                    }
+                },
+                error: function() {
+                    showCustomMessage("Er is een fout opgetreden, probeer later opnieuw", false);
+                }
+            });
+        }
+
+        function submitChangeGender(event) {
+            event.preventDefault();
+            const calender = document.querySelector(".gender");
+            let newgender = document.getElementById("updategender");
+
+            let formData = {
+                gender: $('input[name="gender"]:checked').val(),
+            };
+
+            $.ajax({
+                url: "<?= site_url('account/changegender') ?>",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                success: function(response) {
+                    if (response['status'] == 'success') {
+                        console.log('Helemaal piem');
+                        newgender.innerHTML = response['newgender'];
+                        showCustomMessage("Geslacht veranderd naar " + response['newgender'] + ".", true);
+                        calender.classList.remove("open");
+                        $(".gender-form").reset();
+                    } else {
+                        showCustomMessage(response['message'], false);
+                        formData.reset();
+                        return;
+                    }
+                },
+                error: function() {
+                    showCustomMessage("Er is een fout opgetreden, probeer later opnieuw", false);
+                }
+            });
+        }
+
+        function submitChangebirthdate(event) {
+            event.preventDefault();
+            const calender = document.querySelector(".calender");
+            let newbdate = document.getElementById("updatebdate");
+            let rawDate = $('#birthdate').val(); // Get date in YYYY-MM-DD format
+            let formattedDate = formatDateEU(rawDate); // Convert to DD-MM-YYYY
+
+            let formData = {
+                birthdate: formattedDate,
+            };
+
+            $.ajax({
+                url: "<?= site_url('account/changebirthdate') ?>",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                success: function(response) {
+                    if (response['status'] == 'success') {
+                        console.log('Helemaal piem');
+                        newbdate.innerHTML = response['newbdate'];
+                        showCustomMessage("Geboortedatum veranderd naar " + response['newbdate'] + ".", true);
+                        calender.classList.remove("open");
+                    } else {
+                        showCustomMessage(response['message'], false);
+                        formData.reset();
+                        return;
+                    }
+                },
+                error: function() {
+                    showCustomMessage("Er is een fout opgetreden, probeer later opnieuw", false);
+                }
+            });
+        }
+    </script>
     <main class="profile">
-    <aside class="profile-navigation">
+        <aside class="profile-navigation">
             <div class="profile-container">
                 <header class="profile-header">
                     <h1>Welkom <p style="text-transform: capitalize;"><?php echo $fname; ?></p>
@@ -99,19 +199,19 @@ $restaurant_id = $session->get('restaurant_id');
                         <li class="profile-listitem">
                             <div class="profile-listitem-container">
                                 <i class="fas fa-chart-line"></i>
-                                <a href="<?= site_url('dashboard/orderoverview/' . $restaurant_id)?>">Order overzicht</a>
+                                <a href="<?= site_url('dashboard/orderoverview/' . $restaurant_id) ?>">Order overzicht</a>
                             </div>
                         </li>
                         <li class="profile-listitem">
                             <div class="profile-listitem-container">
                                 <i class="fas fa-list-ul"></i>
-                                <a href="<?= site_url('dashboard/productoverview/' . $restaurant_id)?>">Producten</a>
+                                <a href="<?= site_url('dashboard/productoverview/' . $restaurant_id) ?>">Producten</a>
                             </div>
                         </li>
                         <li class="profile-listitem">
                             <div class="profile-listitem-container">
                                 <i class="fas fa-gear"></i>
-                                <a href="<?= site_url('dashboard/restaurantsettings/' . $restaurant_id)?>">Instellingen</a>
+                                <a href="<?= site_url('dashboard/restaurantsettings/' . $restaurant_id) ?>">Instellingen</a>
                             </div>
                         </li>
                     </ul>
@@ -233,11 +333,11 @@ $restaurant_id = $session->get('restaurant_id');
                 <div class="phone-profile-imagecontainer">
                     <figure class="phone-profile-image">
                         <?php
-                            if (!empty($profileimg)) {
-                                echo '<img src="' . $profileimg . '" alt="">';
-                            } else {
-                                echo '<img src="' . base_url("img/default.png") . '" alt="">';
-                            }
+                        if (!empty($profileimg)) {
+                            echo '<img src="' . $profileimg . '" alt="">';
+                        } else {
+                            echo '<img src="' . base_url("img/default.png") . '" alt="">';
+                        }
                         ?>
                     </figure>
                 </div>
@@ -297,12 +397,12 @@ $restaurant_id = $session->get('restaurant_id');
                         <header class="calenderheader">
                             <i class="fas fa-times close-calender"></i>
                         </header>
-                        <form action="./controllers/account_controller.php?type=setorchangebirthdate" method="POST" class="birthdate-form">
+                        <form onsubmit="return submitChangebirthdate(event);" method="POST" class="birthdate-form">
                             <h2>Selecteer jouw geboortedatum</h2>
 
                             <input type="date" name="birthdate" id="birthdate" required>
 
-                            <button type="submit">Save Birthdate</button>
+                            <button type="submit">Opslaan</button>
                         </form>
                     </div>
                 </div>
@@ -311,15 +411,15 @@ $restaurant_id = $session->get('restaurant_id');
                         <header class="calenderheader">
                             <i class="fas fa-times close-gender"></i>
                         </header>
-                        <form onsubmit="return changeGender(event);" class="gender-form">
+                        <form onsubmit="return submitChangeGender(event);" class="gender-form">
                             <h2>Selecteer jouw geslacht</h2>
 
                             <label>
-                                <input type="radio" name="gender" value="male" required> Man
+                                <input type="radio" name="gender" value="Man" required> Man
                             </label>
 
                             <label>
-                                <input type="radio" name="gender" value="female" required> Vrouw
+                                <input type="radio" name="gender" value="Vrouw" required> Vrouw
                             </label>
 
                             <button type="submit">Opslaan</button>
@@ -331,20 +431,21 @@ $restaurant_id = $session->get('restaurant_id');
                         <header class="calenderheader">
                             <i class="fas fa-times close-password"></i>
                         </header>
-                        <form onsubmit="return changePassword(event);" class="gender-form">
+                        <form onsubmit="submitChangePassword(event);" class="gender-form" autocomplete="on">
                             <h2>Verander uw wachtwoord</h2>
                             <label for="" class="order-phone seper">
-                                <input class="order-input" type="password" name="old-psw" id="old-psw" required>
+                                <input class="order-input" type="password" name="old-psw" id="old-psw" autocomplete="current-password" required>
                                 <p class="label">Oude wachtwoord</p>
                             </label>
                             <label for="" class="order-phone seper">
-                                <input class="order-input" type="password" name="new-psw" id="new-psw" required>
+                                <input class="order-input" type="password" name="new-psw" id="new-psw" autocomplete="new-password" required>
                                 <p class="label">Nieuw wachtwoord</p>
                             </label>
                             <label for="" class="order-phone">
-                                <input class="order-input" type="password" name="confirm-new-psw" id="confirm-new-psw" required>
+                                <input class="order-input" type="password" name="confirm-new-psw" id="confirm-new-psw" autocomplete="new-password" required>
                                 <p class="label">Herhaal nieuwe wachtwoord</p>
                             </label>
+                            <input type="hidden" name="username" value="<?php echo $username; ?>" autocomplete="username">
                             <button type="submit">Verander wachtwoord</button>
                         </form>
                     </div>

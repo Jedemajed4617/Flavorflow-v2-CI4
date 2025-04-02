@@ -158,4 +158,16 @@ class Account extends BaseController
             echo json_encode(['status' => 'error', 'message' => $result[1]]);
         }
     }
+
+    public function postChangeprofileimage()
+    {
+        $data = $_POST;
+        $CommonModel = new CommonModel();
+        $result = $CommonModel->changeProfileimage($data);
+        if($result[0] == 1){
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => $result[1]]);
+        }
+    }
 }

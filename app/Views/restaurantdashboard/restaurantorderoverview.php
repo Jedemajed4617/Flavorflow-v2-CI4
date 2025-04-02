@@ -13,14 +13,14 @@ if ($session->get('logged_in')) {
     $gender = $session->get('gender');
     $profileimg = $session->get('profile_img_src');
     $standardaddress = $session->get('standardaddress');
-    $rank = $session->get('user_type'); 
+    $rank = $session->get('user_type');
 }
 
 if (empty($checkbirthdate)) {
     $birthdate = "Niet ingesteld";
 } else {
-    $birthdate = $checkbirthdate;   
-} 
+    $birthdate = $checkbirthdate;
+}
 
 $restaurant_id = $session->get('restaurant_id');
 
@@ -50,55 +50,64 @@ $restaurant_id = $session->get('restaurant_id');
 </head>
 
 <body>
-<script>
+    <script>
         $(document).ready(function() {
             const $modal = $(".moreinfocontainer");
             const $modalContent = $(".moreinfo");
-            const $openButtons = $(".res-info-listitem > a");
+            const $openButtons = $(".res-info-listitem > a.edit-order-link");
             const $closeButtons = $(".close-moreinfo");
 
-            if (!$modal.length || !$modalContent.length) {
-                console.warn("Error: Modal elements not found.");
+            if (!$modal.length) {
+                console.warn("Error: Order Modal container (.moreinfocontainer) not found.");
                 return;
+            }
+            if (!$openButtons.length) {
+                // console.warn("Warning: No order edit links (.edit-order-link) found on page load.");
             }
 
             function openModal(event) {
                 event.preventDefault();
 
-                // Populate the modal with dish data
                 const $button = $(this);
-                const dishId = $button.data("id");
-                const dishName = $button.data("name");
-                const dishPrice = $button.data("price");
-                const dishCategory = $button.data("category");
-                const dishCreated = $button.data("created");
-                const dishDiscount = $button.data("discount");
-                const dishCreatedBy = $button.data("createdBy");
-                const dishStatus = $button.data("status");
-                const dishDescription = $button.data("description");
-                const dishPriceVat = (dishPrice * 0.79).toFixed(2);
-                const dishImage = $button.data("pimage");
 
-                $("#show_dish_id").val("#" + dishId);
-                $("#show_dish_name").val(dishName);
-                $("#show_dish_price").val("€ " + dishPrice);
-                $("#dish_category2").val(dishCategory);
-                $("#show_when_created").val(dishCreated);
-                $("#show_created_by").val(dishCreatedBy);
-                $("#show_discount").val(dishDiscount);
-                $("#show_status").val(dishStatus);
-                $("#show_dish_desc").val(dishDescription);
-                $("#show_dish_pricevat").val("€ " + dishPriceVat);
-                $("#show_dish_img").attr("src", dishImage);
+                const orderId = $button.data("id");
+                const orderDate = $button.data("order-date");
+                const userName = $button.data("user-name");
+                const paymentMethod = $button.data("payment-method");
+                const address = $button.data("address");
+                const totalPrice = $button.data("total-price");
+                const userUsername = $button.data("user-username");
+                const userEmail = $button.data("user-email");
+                const deliveryStatus = $button.data("delivery-status");
+                const phone = $button.data("phone");
+                const deliveryNote = $button.data("delivery-note");
+                const foodNote = $button.data("food-note");
+                const restaurantName = $button.data("restaurantname");
+                const birthDate = $button.data("birthdate");
+                
 
-                // Open modal
+                $("#orderid").val(orderId ? "#" + orderId : '');
+                $("#orderdate").val(orderDate || '');
+                $("#fullname").val(userName || '');
+                $("#paymethod").val(paymentMethod || '');
+                $("#useradres").val(address || '');
+                $("#user").val(userUsername || '');
+                $("#email").val(userEmail || '');
+                $("#deliverystatus").val(deliveryStatus || '');
+                $("#deliverynote").val(deliveryNote || '');
+                $("#foodnote").val(foodNote || '');
+                $("#resname").val(restaurantName || '');
+                $("#dateofbirth").val(birthDate || '');
+
+                const totalPriceFormatted = parseFloat(totalPrice || 0).toFixed(2);
+                const totalPriceFormattedminustax = (parseFloat(totalPrice) - parseFloat(totalPrice * 0.21)).toFixed(2);
+                $("#priceincl").val(totalPriceFormatted);
+                $("#priceexcl").val(totalPriceFormattedminustax);
+
                 $modal.css("display", "flex");
-
-                // Ensure animation triggers after display change
                 setTimeout(() => {
                     $modal.addClass("open");
                 }, 0);
-
                 $("body").css("overflow", "hidden");
             }
 
@@ -106,12 +115,13 @@ $restaurant_id = $session->get('restaurant_id');
                 $modal.addClass("closing");
                 setTimeout(() => {
                     $modal.removeClass("open closing");
-                    $modal.css("display", "none"); // Hide modal after animation
+                    $modal.css("display", "none");
                     $("body").css("overflow", "auto");
-                }, 300); // Match CSS transition time
+                }, 300);
             }
 
             $openButtons.on("click", openModal);
+
             $closeButtons.on("click", closeModal);
 
             $(document).on("keydown", function(event) {
@@ -119,6 +129,7 @@ $restaurant_id = $session->get('restaurant_id');
                     closeModal();
                 }
             });
+
         });
     </script>
     <div class="moreinfocontainer">
@@ -229,7 +240,7 @@ $restaurant_id = $session->get('restaurant_id');
         </div>
     </div>
     <main class="profile">
-    <aside class="profile-navigation">
+        <aside class="profile-navigation">
             <div class="profile-container">
                 <header class="profile-header">
                     <h1>Welkom <p style="text-transform: capitalize;"><?php echo $fname; ?></p>
@@ -280,19 +291,19 @@ $restaurant_id = $session->get('restaurant_id');
                         <li class="profile-listitem">
                             <div class="profile-listitem-container active">
                                 <i class="fas fa-chart-line"></i>
-                                <a href="<?= site_url('dashboard/orderoverview/' . $restaurant_id)?>">Order overzicht</a>
+                                <a href="<?= site_url('dashboard/orderoverview/' . $restaurant_id) ?>">Order overzicht</a>
                             </div>
                         </li>
                         <li class="profile-listitem">
                             <div class="profile-listitem-container">
                                 <i class="fas fa-list-ul"></i>
-                                <a href="<?= site_url('dashboard/productoverview/' . $restaurant_id)?>">Producten</a>
+                                <a href="<?= site_url('dashboard/productoverview/' . $restaurant_id) ?>">Producten</a>
                             </div>
                         </li>
                         <li class="profile-listitem">
                             <div class="profile-listitem-container">
                                 <i class="fas fa-gear"></i>
-                                <a href="<?= site_url('dashboard/restaurantsettings/' . $restaurant_id)?>">Instellingen</a>
+                                <a href="<?= site_url('dashboard/restaurantsettings/' . $restaurant_id) ?>">Instellingen</a>
                             </div>
                         </li>
                     </ul>
@@ -368,7 +379,7 @@ $restaurant_id = $session->get('restaurant_id');
                         <b>Naam</b>
                     </li>
                     <li class="res-info-header">
-                        <b>Status</b>
+                        <b>Methode</b>
                     </li>
                     <li class="res-info-header">
                         <b>Adres</b>
@@ -378,60 +389,60 @@ $restaurant_id = $session->get('restaurant_id');
                     </li>
                 </ul>
                 <ul class="profile-info-list">
-                    <li class="res-info-listitem">
-                        <p>#0006</p>
-                        <p>22/02/2025 <small>Om 15:13</small></p>
-                        <p>Jan</p>
-                        <p>Afgeleverd</p>
-                        <p>Kruistraat 14, Amsterdam</p>
-                        <p>€ 37,98</p>
-                        <a href="">Veranderen</a>
-                    </li>
-                    <li class="res-info-listitem">
-                        <p>#0005</p>
-                        <p>22/02/2025 <small>Om 15:13</small></p>
-                        <p>Jan</p>
-                        <p>Afgeleverd</p>
-                        <p>Kruistraat 14, Amsterdam</p>
-                        <p>€ 37,98</p>
-                        <a href="">Veranderen</a>
-                    </li>
-                    <li class="res-info-listitem">
-                        <p>#0004</p>
-                        <p>22/02/2025 <small>Om 15:13</small></p>
-                        <p>Jan</p>
-                        <p>Afgeleverd</p>
-                        <p>Kruistraat 14, Amsterdam</p>
-                        <p>€ 37,98</p>
-                        <a href="">Veranderen</a>
-                    </li>
-                    <li class="res-info-listitem">
-                        <p>#0003</p>
-                        <p>22/02/2025 <small>Om 15:13</small></p>
-                        <p>Jan</p>
-                        <p>Afgeleverd</p>
-                        <p>Kruistraat 14, Amsterdam</p>
-                        <p>€ 37,98</p>
-                        <a href="">Veranderen</a>
-                    </li>
-                    <li class="res-info-listitem">
-                        <p>#0002</p>
-                        <p>22/02/2025 <small>Om 15:13</small></p>
-                        <p>Jan</p>
-                        <p>Afgeleverd</p>
-                        <p>Kruistraat 14, Amsterdam</p>
-                        <p>€ 37,98</p>
-                        <a href="">Veranderen</a>
-                    </li>
-                    <li class="res-info-listitem">
-                        <p>#0001</p>
-                        <p>22/02/2025 <small>Om 15:13</small></p>
-                        <p>Jan</p>
-                        <p>Afgeleverd</p>
-                        <p>Kruistraat 14, Amsterdam</p>
-                        <p>€ 37,98</p>
-                        <a href="">Veranderen</a>
-                    </li>
+                    <?php
+                    // Assuming $orders comes from the updated getAllRestaurantOrdersWithTotals
+                    foreach ($orders as $order) {
+                        // --- Standard Order Data ---
+                        $order_id = $order['order_id'];
+                        $order_date = $order['order_date'] ?? 'N/A';
+                        $customer_name = trim(($order['fname'] ?? '') . ' ' . ($order['lname'] ?? ''));
+                        if(empty($customer_name)) $customer_name = 'N/A';
+
+                        $payment_method = $order['payment_method'] ?? 'Er is iets misgegaan';
+                        $address = $order['address'] ?? 'N/A';
+                        $total_price_raw = $order['total_order_price'] ?? 0;
+                        $total_price_formatted = number_format($total_price_raw, 2, ',', '.');
+                        $email = $order['email'] ?? 'N/A';
+                        $delivery_method = $order['delivery_method'] ?? 'Geen bezorgmethode gekozen';
+                        $phone = $order['phone'] ?? 'N/A';
+                        $delivery_note = $order['order_delivery_note'] ?? 'Geen bericht achtergelaten';
+                        $food_note = $order['order_food_note'] ?? 'Geen bericht achtergelaten';
+
+                        $restaurant_name = $order['restaurant_name'] ?? 'Geen restaurant gevonden';
+
+                        $user_id = $order['user_id'];
+                        $user_username = $order['username'] ?? "Geen account gevonden";
+                        $birthdate = $order['date_of_birth'] ?? "Geen account gevonden";
+
+                        echo '<li class="res-info-listitem">';
+                        echo '<p>' . htmlspecialchars($order_id) . '</p>';
+                        echo '<p>' . htmlspecialchars($order_date) . '</p>';
+                        echo '<p>' . htmlspecialchars($customer_name) . '</p>';
+                        echo '<p>' . htmlspecialchars(ucfirst($payment_method)) . '</p>';
+                        echo '<p>' . htmlspecialchars($address) . '</p>';
+                        echo '<p>€ ' . $total_price_formatted . '</p>';
+
+                        // --- Link with Data Attributes ---
+                        // Now $restaurant_name (correct spelling) is used here
+                        echo '<a href="#" class="edit-order-link"
+                                data-id="' . htmlspecialchars($order_id) . '"
+                                data-restaurantname="' . htmlspecialchars($restaurant_name) . '"
+                                data-order-date="' . htmlspecialchars($order_date) . '"
+                                data-user-name="' . htmlspecialchars($customer_name) . '" ' .
+                                'data-payment-method="' . htmlspecialchars($payment_method) . '"
+                                data-address="' . htmlspecialchars($address) . '"
+                                data-total-price="' . htmlspecialchars($total_price_raw) . '"
+                                data-user-username="' . htmlspecialchars($user_username ?? '') . '" ' .
+                                'data-user-email="' . htmlspecialchars($email) . '" ' .
+                                'data-delivery-status="' . htmlspecialchars($delivery_method) . '" ' .
+                                'data-phone="' . htmlspecialchars($phone) . '" ' .
+                                'data-delivery-note="' . htmlspecialchars($delivery_note) . '"
+                                data-food-note="' . htmlspecialchars($food_note) . '"
+                                data-birthdate="' . htmlspecialchars($birthdate ?? '') . '" ' .
+                                '>Bekijken</a>';
+                        echo '</li>';
+                    }
+                    ?>
                 </ul>
             </div>
         </section>
@@ -448,11 +459,11 @@ $restaurant_id = $session->get('restaurant_id');
                 <li class="phone-profile-info-listitem">
                     <figure class="phone-profile-info-figure">
                         <?php
-                            if (!empty($profileimg)) {
-                                echo '<img src="' . $profileimg . '" alt="">';
-                            } else {
-                                echo '<i class="fas fa-user profile-edit-icon"></i>';
-                            }
+                        if (!empty($profileimg)) {
+                            echo '<img src="' . $profileimg . '" alt="">';
+                        } else {
+                            echo '<i class="fas fa-user profile-edit-icon"></i>';
+                        }
                         ?>
                         <div class="phone-profile-info-figureicon" onclick="openPopup('profileimgcontainer', 'close-profileimg');">
                             <i class="fa-solid fa-camera"></i>

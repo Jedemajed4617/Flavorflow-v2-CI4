@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use CodeIgniter\Files\File;
 
 class CommonModel extends Model
-{   
+{
     public function changePassword($data)
     {
         $valid = 1;
@@ -400,7 +401,7 @@ class CommonModel extends Model
                 'city' => $city,
                 'street_name' => $street,
                 'street_number' => $house_number,
-                'street_number_addition' => $house_number_addition, 
+                'street_number_addition' => $house_number_addition,
                 'postal_code' => $postal_code,
                 'created_at' => $created_at,
                 'active' => 0,
@@ -410,5 +411,112 @@ class CommonModel extends Model
             $session->set('active_address', $fulladdress);
         }
         return array($valid, $message);
+    }
+
+    public function changeProfileimage()
+    {
+        $valid = 1;
+        $message = '';
+        $session = session();
+        $user_id = $session->get('user_id');
+        $newImagePathForDb = null; 
+
+        if (!isset($_FILES['profileimg']) || empty($_FILES['profileimg']['name']) || $_FILES['profileimg']['error'] !== UPLOAD_ERR_OK) {
+            if (isset($_FILES['profileimg']['error']) && $_FILES['profileimg']['error'] !== UPLOAD_ERR_NO_FILE) {
+                $valid = 0;
+                $message = 'Fout bij uploaden bestand (Error code: ' . $_FILES['profileimg']['error'] . ').';
+            } else {
+                $valid = 0;
+                $message = 'Selecteer een afbeelding om te uploaden.';
+            }
+            return array($valid, $message, $newImagePathForDb);
+        }
+
+        $fileInfo = $_FILES['profileimg'];
+        if ($fileInfo['size'] > 4 * 1024 * 1024) {
+            $valid = 0;
+            $message = 'Bestandsgrootte mag niet groter zijn dan 4MB.';
+            return array($valid, $message, $newImagePathForDb);
+        }
+
+        $file = new File($fileInfo['tmp_name']);
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
+        if (!in_array($file->getMimeType(), $allowedTypes)) {
+            $valid = 0;
+            $message = 'Alleen JPG, JPEG, PNG en WEBP bestanden zijn toegestaan.';
+            return array($valid, $message, $newImagePathForDb);
+        }
+
+        $profile_folder = FCPATH . 'img/profileimg'; 
+        $newFileName = "profile_userid-{$user_id}_" . uniqid() . ".webp"; 
+        $newImageServerPath = $profile_folder . DIRECTORY_SEPARATOR . $newFileName;
+        $newImagePathForDb = '/img/profileimg/' . $newFileName;
+
+        if (!is_dir($profile_folder)) {
+            @mkdir($profile_folder, 0777, true);
+        }
+
+        $imagePath = $file->getRealPath();
+        $image = imagecreatefromstring(file_get_contents($imagePath));
+
+        if ($image === false) {
+            $valid = 0;
+            $message = 'Kon afbeelding niet laden.';
+            return array($valid, $message, null);
+        }
+
+        if (imageistruecolor($image) === false) {
+            $truecolorImage = imagecreatetruecolor(imagesx($image), imagesy($image));
+            if ($truecolorImage) {
+                imagecopy($truecolorImage, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
+                imagedestroy($image);
+                $image = $truecolorImage;
+            }
+        }
+
+        $saveSuccess = false;
+        if ($image) {
+            imagealphablending($image, false);
+            imagesavealpha($image, true);
+            $saveSuccess = imagewebp($image, $newImageServerPath, 80); // Quality 80
+            imagedestroy($image);
+        }
+
+        if (!$saveSuccess) {
+            $valid = 0;
+            $message = 'Kon afbeelding niet opslaan als WebP.';
+            if (is_file($newImageServerPath)) {
+                @unlink($newImageServerPath);
+            } // Clean up failed attempt
+            return array($valid, $message, null);
+        }
+
+        $builderSelect = $this->db->table('users');
+        $oldImage = $builderSelect->select('profile_img_src')->where('user_id', $user_id)->get()->getRowArray();
+
+        if (!empty($oldImage['profile_img_src']) && strpos($oldImage['profile_img_src'], 'default') === false) {
+            $oldImagePath = FCPATH . ltrim($oldImage['profile_img_src'], '/');
+            if (is_file($oldImagePath)) {
+                @unlink($oldImagePath);
+            }
+        }
+
+        $builderUpdate = $this->db->table('users');
+        $builderUpdate->where('user_id', $user_id);
+        $updateSuccess = $builderUpdate->update([
+            'profile_img_src' => $newImagePathForDb,
+        ]);
+
+        if (!$updateSuccess) {
+            $valid = 0;
+            $message = 'Database update mislukt.';
+            if (is_file($newImageServerPath)) {
+                @unlink($newImageServerPath);
+            }
+            $newImagePathForDb = null;
+        } else {
+            $session->set('profile_img_src', $newImagePathForDb);
+        }
+        return array($valid, $message, $newImagePathForDb);
     }
 }

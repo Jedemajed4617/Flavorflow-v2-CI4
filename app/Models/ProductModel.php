@@ -32,7 +32,6 @@ class ProductModel extends Model
         $created_at = date('d-m-Y H:i:s');
         $created_by = $session->get('fname');
         $dish_img_src = null;
-        // Handle file upload
 
         //$file = $this->request->getFile('dishimage');
         $file = $_FILES['dishimage'];

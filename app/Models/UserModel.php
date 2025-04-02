@@ -160,4 +160,28 @@ class UserModel extends Model
 
         return array($valid, $message);
     }
+
+    public function getUserInfo($user_id){
+        $db = \Config\Database::connect();
+        $builder = $db->table('users');
+        $builder->where('user_id', $user_id);
+        $builder->select('*');
+        $query = $builder->get();
+
+        // Convert result to an array
+        $users = $query->getResultArray();
+        return $users;
+    }
+
+    public function getAllUserOrders($user_id)
+    {
+        $builder = $this->db->table('orders');
+        $builder->select('orders.order_id, orders.user_id, orders.order_date, orders.address, orders.payment_method, orders.fname, orders.lname, orders.email, orders.phone, orders.delivery_method, orders.order_delivery_note, orders.order_food_note');
+        $builder->where('orders.user_id', $user_id);
+        $query = $builder->get();
+
+        // Convert result to an array
+        $orders = $query->getResultArray();
+        return $orders;
+    }
 }
