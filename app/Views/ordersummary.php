@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="<?= base_url('css/index.css') ?>">
     <link rel="stylesheet" href="<?= base_url('css/restaurant.css') ?>">
     <link rel="stylesheet" href="<?= base_url('css/cart.css') ?>">
-    <link rel="stylesheet" href="./css/password-change.css">
+    <link rel="stylesheet" href="<?= base_url('css/password-change.css') ?>">
+    <link rel="stylesheet" href="/css/profile.css" />
     <script src="<?= base_url('js/functions.js') ?>" defer></script>
     <script src="<?= base_url('js/main.js') ?>" defer></script>
     <title>Flavorflow - De beste online bestel-app</title>
@@ -59,6 +60,17 @@
         .order-details p,
         .items-list p {
             margin: 0.5rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            background-color: var(--accent-color-background-light);
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+        }
+
+        .order-details>p>strong,
+        .items-list>p>strong {
+            padding: 0;
         }
 
         .item {
@@ -177,31 +189,31 @@
             color: var(--accent-color);
         }
 
-        @media screen and (max-width: 990px){
+        @media screen and (max-width: 990px) {
             .status-d {
                 flex-direction: column;
                 gap: 0;
             }
         }
 
-        @media screen and (max-width: 750px){
-            .image-container{
+        @media screen and (max-width: 750px) {
+            .image-container {
                 width: 100%;
                 max-height: 200px;
             }
 
-            .image-container img{
+            .image-container img {
                 width: 100%;
                 max-height: 200px;
                 object-fit: cover;
                 object-position: 25% 75%;
             }
 
-            .order-status{
+            .order-status {
                 width: 100%;
             }
 
-            .status-container{
+            .status-container {
                 flex-direction: column;
             }
         }
@@ -212,46 +224,69 @@
             }
         }
 
-        @media screen and (max-width: 500px){
-            .order-status > p{
+        @media screen and (max-width: 500px) {
+            .order-status>p {
                 font-size: 1.2rem;
             }
 
-            .item-font{
+            .item-font {
                 font-size: 1.2rem;
             }
         }
 
-        @media screen and (max-width: 425px){
-            .header > h1{
+        @media screen and (max-width: 425px) {
+            .header>h1 {
                 font-size: 2rem;
             }
 
-            .header > p{
+            .header>p {
                 font-size: 1.2rem;
             }
 
-            .order-status > p, .order-details > p{
+            .order-status>p,
+            .order-details>p {
                 flex-direction: column;
             }
 
-            .buttons{
+            .buttons {
                 display: block;
             }
         }
     </style>
     <div class="restaurant-container">
         <main class="restaurant">
-            <div class="header">
-                <h1>Bedankt voor uw bestelling!</h1>
-                <p>Uw bestelling is succesvol geplaatst. U ontvangt een bevestigingsmail met de details van uw bestelling.</p>
-                <p>Als u vragen heeft, neem dan gerust contact met ons op.</p>
-            </div>
+            <?php if (!empty($orderdata) && empty($order_id)): ?>
+                <div class="header">
+                    <h1>Bedankt voor uw bestelling!</h1>
+                    <p>Uw bestelling is succesvol geplaatst. U ontvangt een bevestigingsmail met de details van uw bestelling.</p>
+                    <p>Als u vragen heeft, neem dan gerust contact met ons op.</p>
+                    <small>U kunt uw order altijd bekijken in uw profiel.</small>
+                </div>
+            <?php elseif (!empty($order_id) && !empty($orderdatabyid)): ?>
+                <div class="header">
+                    <h1>Uw order met het ordernummer #<?= esc($orderdatabyid['order_id']) ?></h1>
+                    <p>Als u vragen heeft, neem dan gerust contact met ons op.</p>
+                </div>
+            <?php else: ?>
+                <p>Geen informatie gevonden.</p>
+            <?php endif; ?>
             <div class="container">
+                <div class="buttons">
+                    <a href="<?= site_url('/'); ?>" class="btn">Ga terug naar de homepagina</a>
+                    <br>
+                    <?php if (session()->get('user_id')): ?>
+                        <a href="<?= site_url('account') ?>" class="btn">Ga naar account</a>
+                    <?php else: ?>
+
+                        <a href="<?= site_url('account/register') ?>" class="btn">Registreer een account</a>
+                    <?php endif; ?>
+                </div>
+                <br>
+                <br>
                 <div>
                     <h2>Bestellingsoverzicht:</h2>
                     <div class="order-details">
-                        <?php if (!empty($orderdata)): ?>
+                        <?php if (!empty($orderdata) && empty($order_id)): ?>
                             <p><strong>Order ID:</strong> #<?= esc($orderdata['order_id']) ?></p>
                             <p><strong>Naam:</strong> <?= esc($orderdata['fname']) ?> <?= esc($orderdata['lname']) ?></p>
                             <p><strong>Email:</strong> <?= esc($orderdata['email']) ?></p>
@@ -261,6 +296,17 @@
                             <p><strong>Opmerking voor bezorger:</strong> <?= esc($orderdata['order_delivery_note']) ?></p>
                             <p><strong>Adres:</strong> <?= esc($orderdata['address']) ?></p>
                             <p><strong>Datum:</strong> <?= esc($orderdata['order_date']) ?></p>
+
+                        <?php elseif (!empty($order_id) && !empty($orderdatabyid)): ?>
+                            <p><strong>Order ID:</strong> #<?= esc($orderdatabyid['order_id']) ?></p>
+                            <p><strong>Naam:</strong> <?= esc($orderdatabyid['fname']) ?> <?= esc($orderdatabyid['lname']) ?></p>
+                            <p><strong>Email:</strong> <?= esc($orderdatabyid['email']) ?></p>
+                            <p><strong>Telefoonnummer:</strong> <?= esc($orderdatabyid['phone']) ?></p>
+                            <p><strong>Bezorgmethode:</strong> <?= esc($orderdatabyid['delivery_method']) ?></p>
+                            <p><strong>Betaalmethode:</strong> <?= esc($orderdatabyid['payment_method']) ?></p>
+                            <p><strong>Opmerking voor bezorger:</strong> <?= esc($orderdatabyid['order_delivery_note']) ?></p>
+                            <p><strong>Adres:</strong> <?= esc($orderdatabyid['address']) ?></p>
+                            <p><strong>Datum:</strong> <?= esc($orderdatabyid['order_date']) ?></p>
                         <?php else: ?>
                             <p>Geen informatie gevonden.</p>
                         <?php endif; ?>
@@ -270,8 +316,11 @@
                 <div>
                     <h2>Info Restaurant:</h2>
                     <div class="order-details">
-                        <?php if (!empty($orderdata)): ?>
+                        <?php if (!empty($orderdata) && empty($order_id)): ?>
                             <p><strong>Naam Restaurant:</strong> <?= esc($orderdata['restaurant_name']) ?></p>
+                            <p><strong>Adres Restaurant:</strong> Nieuwstraat 57, 1671CG Medemblik</p>
+                        <?php elseif (!empty($order_id) && !empty($orderdatabyid)): ?>
+                            <p><strong>Naam Restaurant:</strong> <?= esc($orderdatabyid['restaurant_name']) ?></p>
                             <p><strong>Adres Restaurant:</strong> Nieuwstraat 57, 1671CG Medemblik</p>
                         <?php else: ?>
                             <p>Geen informatie gevonden.</p>
@@ -282,7 +331,7 @@
                 <div>
                     <h2>Uw bestelling:</h2>
                     <div class="items-list">
-                        <?php if (!empty($orderdata['cart'])): ?>
+                        <?php if (!empty($orderdata['cart']) && empty($order_id)): ?>
                             <?php foreach ($orderdata['cart'] as $item): ?>
                                 <div class="item">
                                     <span class="item-font"><?= esc($item['name']) ?> <small>x<?= esc($item['quantity']) ?></small></span>
@@ -295,8 +344,21 @@
                                     €<?= number_format(array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $orderdata['cart'])), 2) ?>
                                 </span>
                             </div>
+                        <?php elseif (!empty($order_id) && !empty($orderdatabyid)): ?>
+                            <?php foreach ($orderdatabyid['cart'] as $item): ?>
+                                <div class="item">
+                                    <span class="item-font"><?= esc($item['dish_name']) ?> <small>x<?= esc($item['quantity']) ?></small></span>
+                                    <span class="item-font">€<?= number_format($item['price'], 2) ?></span>
+                                </div>
+                            <?php endforeach; ?>
+                            <div class="item total">
+                                <span class="item-font">Totaal</span>
+                                <span class="item-font">
+                                    €<?= number_format(array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $orderdatabyid['cart'])), 2) ?>
+                                </span>
+                            </div>
                         <?php else: ?>
-                            <p>Geen items in de bestelling.</p>
+                            <p>Geen informatie gevonden.</p>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -305,15 +367,24 @@
                     <h2>Bezorginformatie:</h2>
                     <div class="status-d">
                         <div class="image-container">
-                            <img src="img/map.jpg" alt="">
+                            <img src="<?= base_url('img/map.jpg') ?>" alt="">
                         </div>
-                        <?php if (!empty($orderdata)): ?>
-                            <div class="order-status">
+                        <?php if (!empty($orderdata) && empty($order_id)): ?>
+                            <div class="order-status" style="text-transform: capitalize;">
                                 <p><strong>Bezorgadres:</strong> <?= esc($orderdata['address']) ?></p>
                                 <p><strong>Bezorgmethode:</strong> <?= esc($orderdata['delivery_method']) ?></p>
                                 <p><strong>Bezorgkosten:</strong> €2.50</p>
                                 <p><strong>Bezorgstatus:</strong> Voorbereiden</p>
                             </div>
+                        <?php elseif (!empty($order_id) && !empty($orderdatabyid)): ?>
+                            <div class="order-status" style="text-transform: capitalize;">
+                                <p><strong>Bezorgadres:</strong> <?= esc($orderdatabyid['address']) ?></p>
+                                <p><strong>Bezorgmethode:</strong> <?= esc($orderdatabyid['delivery_method']) ?></p>
+                                <p><strong>Bezorgkosten:</strong> €2.50</p>
+                                <p><strong>Bezorgstatus:</strong> Voorbereiden</p>
+                            </div>
+                        <?php else: ?>
+                            <p>Geen informatie gevonden.</p>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -321,11 +392,19 @@
                 <div class="buttons">
                     <a href="<?= site_url('/'); ?>" class="btn">Ga terug naar de homepagina</a>
                     <br>
-                    <a href="<?= site_url('account/register') ?>" class="btn">Registreer een account</a>
+                    <?php if (session()->get('user_id')): ?>
+                        <a href="<?= site_url('account') ?>" class="btn">Ga naar account</a>
+                    <?php else: ?>
+
+                        <a href="<?= site_url('account/register') ?>" class="btn">Registreer een account</a>
+                    <?php endif; ?>
                 </div>
             </div>
         </main>
     </div>
+    <script>
+        console.log("Existing cookies:", document.cookie);
+    </script>
 </body>
 
 </html>

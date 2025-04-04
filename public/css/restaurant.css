@@ -7,6 +7,7 @@
     --subheading-color: #747474;
     --subheading-color-lighter: #939393;
     --shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    --card-hover-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
 /* Header segment */
@@ -101,6 +102,7 @@
 .restaurant-basket{
     width: auto;
     height: auto;
+    position: relative;
 }
 
 .restaurant-basket > i{
@@ -111,6 +113,22 @@
 .restaurant-basket > i:hover{
     color: var(--accent-color);
     cursor: pointer;
+}
+
+.restaurant-basket > figure{
+    position: absolute;
+    top: -10%;
+    right: -15%;
+    border-radius: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: red;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    display: none;
 }
 
 .restaurant-infolist{
@@ -311,6 +329,13 @@
     flex: 0 0 auto;
     user-select: none; 
     cursor: pointer;
+    background-color: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.restaurant-slideritem:hover{
+    transform: translateY(-2px);
+    box-shadow: var(--card-hover-shadow);
 }
 
 .restaurant-slideritem > p{
@@ -422,9 +447,10 @@
 .products-item{
     width: 100%;
     height: 8rem;
-    border: 1px solid var(--accent-color-lightest);
+    box-shadow: var(--shadow);
     display: flex;
     border-radius: 1rem;
+    background-color: white;
 }
 
 .products-imgcontainer{
@@ -503,22 +529,55 @@
 @media screen and (max-width: 400px){
     .products-item{
         width: 100%;
-        height: 6rem;
+        height: 25rem;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .products-imgcontainer{
+        width: 100%;
+        height: 17.5rem;
+        padding: 0.5rem;
+        overflow: hidden;
+        border-bottom: 1px solid var(--subheading-color-lighter);
+    }   
+    
+    .products-imgcontainer > img{
+        height: 140%;
+        width: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .products-content{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 1rem;
+    }
+    
+    .products-itemlist{
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 1.5rem;
     }
 
     .products-content > h1{
-        font-size: 1.4rem;
+        font-size: 2rem;
     }
 
     .products-rating > p{
-        font-size: 1rem;
+        font-size: 1.4rem;
     }
 
     .products-button > i{
-        font-size: 2.2rem;
+        font-size: 3rem;
     }
 
     .products-itemlist{
-        gap: 1rem;
+        gap: 2rem;
     }
 }

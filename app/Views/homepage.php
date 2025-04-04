@@ -24,6 +24,8 @@
                 <h1 class="category-heading">Onze garanties</h1>
                 <p class="category-subheading">Onze garanties voor jou op een rij.</p>
             </header>
+            <br>
+            <br>
             <ul class="promise-list">
                 <li class="promise">
                     <figure class="promise-figure">

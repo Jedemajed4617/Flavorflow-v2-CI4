@@ -20,8 +20,12 @@ class Profile extends BaseController
 
     public function getOrders()
     {
+        $session = session();
+        $usermodel = new \App\Models\UserModel();
+        $user_id = $session->get('user_id');
+        $orders = $usermodel->getOrders($user_id);
         echo view('templates/dashnav');
-        echo view('profile/orders'); 
+        echo view('profile/orders', ['orders' => $orders]); 
     }
 
     public function getNotifications()

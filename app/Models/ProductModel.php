@@ -117,6 +117,14 @@ class ProductModel extends Model
             'created_by' => $created_by,
             'offline' => 0
         ]);
+
+        $resdata = $restaurantmodelname->GetSingleRestaurant($restaurantid); // Get restaurant name
+
+        $builder = $db->table('restaurants');
+        $builder->where('restaurant_id', $restaurantid);
+        $builder->update([
+            'total_orders' => $resdata['total_orders'] + 1
+        ]);
         
         if (!$insert) {
             $valid = 0;
@@ -197,6 +205,16 @@ class ProductModel extends Model
                         unlink($imagePath);
                     }
                 }
+
+                $restaurantmodelname = new RestaurantModel();
+                $restaurantid = $product['restaurant_id'];
+                $resdata = $restaurantmodelname->GetSingleRestaurant($restaurantid); // Get restaurant name
+
+                $builder = $db->table('restaurants');
+                $builder->where('restaurant_id', $restaurantid);
+                $builder->update([
+                    'total_orders' => $resdata['total_orders'] - 1
+                ]);
 
                 $builder->delete();
                 $valid = 1;

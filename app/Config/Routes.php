@@ -11,6 +11,7 @@ use CodeIgniter\Router\RouteCollection;
 
 // Api route
 $routes->get('api/get-address-suggestions', 'GooglePlacesController::getAddressSuggestions');
+$routes->get('api/get-place-details', 'GooglePlacesController::getPlaceDetails');
 
 // // homepage routes
 // $routes->get('/', 'Home::index');

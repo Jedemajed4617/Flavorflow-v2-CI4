@@ -88,6 +88,12 @@ class OrderModel extends Model
             $resdata['restaurant_name'] = 'Niet gevonden';
         }
 
+        $builder = $db->table('restaurants');
+        $builder->where('restaurant_id', $restaurantid);
+        $builder->update([
+            'total_orders' => $resdata['total_orders'] + 1
+        ]);
+
         $orderdata = [
             'order_id' => $order_id,
             'fname' => $fname,
@@ -110,6 +116,49 @@ class OrderModel extends Model
         // print_r($orderdata);
         // die();
 
-        return array($valid, $message, $orderdata);
+        return array($valid, $message, $orderdata, $order_id);
+    }
+
+    public function GetActiveAddressByUserID($user_id)
+    {
+        $db = \Config\Database::connect();
+
+        $builder = $db->table('address');
+        $builder->where('user_id', $user_id);
+        $builder->where('active', 0);
+        $builder->where('address_type', "bezorgadres");
+        $query = $builder->get();
+
+        $result = $query->getResultArray();
+        return !empty($result) ? $result[0] : null;
+    }
+
+    public function getOrderDataByOrderID($order_id)
+    {
+        $db = \Config\Database::connect();
+    
+        // Fetch order details with restaurant name
+        $builder = $db->table('orders');
+        $builder->select('orders.*, COALESCE(restaurants.restaurant_name, "Onbekend restaurant") AS restaurant_name');
+        $builder->join('restaurants', 'restaurants.restaurant_id = orders.restaurant_id', 'left');
+        $builder->where('orders.order_id', $order_id);
+        $query = $builder->get();
+    
+        $order = $query->getRowArray(); // Fetch single order row
+    
+        if (!$order) {
+            return null; // No order found
+        }
+    
+        // Fetch order dishes (cart items)
+        $builder = $db->table('order_dishes');
+        $builder->select('order_dishes.*, dishes.dish_name'); // Assuming 'dishes' table has 'name'
+        $builder->join('dishes', 'dishes.dish_id = order_dishes.dish_id', 'left');
+        $builder->where('order_dishes.order_id', $order_id);
+        $query = $builder->get();
+    
+        $order['cart'] = $query->getResultArray(); 
+    
+        return $order;
     }
 }

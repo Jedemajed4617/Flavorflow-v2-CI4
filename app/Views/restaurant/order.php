@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -8,8 +7,9 @@
     <link rel="stylesheet" href="<?= base_url('css/index.css') ?>">
     <link rel="stylesheet" href="<?= base_url('css/restaurant.css') ?>">
     <link rel="stylesheet" href="<?= base_url('css/cart.css') ?>">
-    <link rel="stylesheet" href="./css/password-change.css">
+    <link rel="stylesheet" href="<?= base_url('css/password-change.css') ?>">
     <script src="<?= base_url('js/functions.js') ?>" defer></script>
+    <script src="<?= base_url('js/cart-logic.js') ?>" defer></script>
     <script src="<?= base_url('js/main.js') ?>" defer></script>
     <title>Flavorflow - De beste online bestel-app</title>
     <link rel="shortcut icon" href="<?= base_url('img/f-logo.png') ?>" type="image/x-icon">
@@ -19,7 +19,7 @@
     <div id="message-container" class="message-container"></div>
     <div class="restaurant-container">
         <main class="restaurant">
-            <section class="restaurant-heading">
+        <section class="restaurant-heading">
                 <div class="restaurant-headercontainer">
                     <div class="restaurant-header">
                         <h1><?php echo $restaurant['restaurant_name']; ?></h1>
@@ -54,6 +54,7 @@
                     </div>
                     <div class="restaurant-basket" onclick="openCart();">
                         <i class="fa-solid fa-basket-shopping"></i>
+                        <figure><p></p></figure>
                     </div>
                 </div>
             </section>
@@ -138,39 +139,46 @@
             </section>
             <ul class="products-itemlist">
                 <?php if (!empty($dishes)): ?>
-                    <?php foreach ($dishes as $dish): 
-                        if (isset($dish['active_discount']) && $dish['active_discount'] !== null) {
-                            if ($dish['active_discount'] == 100) {
-                                $dish['discounted_price'] = 'Gratis';
-                            } elseif ($dish['active_discount'] == 0) {
-                                $dish['discounted_price'] = number_format($dish['dish_price'], 2);
-                            } else {
-                                $discount = ($dish['dish_price'] * $dish['active_discount']) / 100;
-                                $dish['discounted_price'] = number_format($dish['dish_price'] - $discount, 2);
-                            }
-                        } else {
-                            $dish['discounted_price'] = number_format($dish['dish_price'], 2);
-                        }
-                    ?>
+                    <?php foreach ($dishes as $dish): ?>
                         <?php
-                        // Retrieve dish details
-                        $dish_name = $dish['dish_name'];
-                        $dish_price = $dish['discounted_price'];
-                        $dish_img_src = !empty($dish['dish_img_src']) ? $dish['dish_img_src'] : './img/logo-res.jpg'; // Default image if not set
+                        $dish_price_original = (float)($dish['dish_price'] ?? 0);
+                        $discount_percentage = isset($dish['active_discount']) ? (int)$dish['active_discount'] : 0;
+                        $dish_price_final = $dish_price_original; 
+                        $display_price_text = number_format($dish_price_original, 2);
+
+                        if ($discount_percentage > 0 && $discount_percentage <= 100) {
+                            if ($discount_percentage == 100) {
+                                $dish_price_final = 0.00;
+                                $display_price_text = 'Gratis';
+                            } else {
+                                $discount_amount = ($dish_price_original * $discount_percentage) / 100;
+                                $dish_price_final = $dish_price_original - $discount_amount;
+                                $display_price_text = number_format($dish_price_final, 2); 
+                            }
+                        }
+                        $dish_id_js = esc($dish['dish_id'] ?? '', 'js');
+                        $dish_name_js = esc($dish['dish_name'] ?? 'Unknown Dish', 'js');
+                        // Pass the FINAL calculated numeric price to JS
+                        $dish_price_js = esc($dish_price_final, 'js');
+                        $dish_img_src_js = esc(!empty($dish['dish_img_src']) ? base_url($dish['dish_img_src']) : base_url('img/logo-res.jpg'), 'js');
+
+                        // Prepare data for HTML display
+                        $dish_name_html = esc($dish['dish_name'] ?? 'Unknown Dish');
+                        $dish_img_src_html = esc(!empty($dish['dish_img_src']) ? base_url($dish['dish_img_src']) : base_url('img/logo-res.jpg'), 'attr');
+                        $price_display_html = ($display_price_text === 'Gratis') ? 'Gratis' : 'Vanaf € ' . $display_price_text;
+
                         ?>
                         <li class="products-item">
                             <figure class="products-imgcontainer">
-                                <img src="<?= esc($dish_img_src) ?>" alt="<?= esc($dish_name) ?>"> <!-- Dish image -->
-                            </figure>
+                                <img src="<?= $dish_img_src_html ?>" alt="<?= $dish_name_html ?>"> </figure>
                             <div class="products-contentcontainer">
                                 <div class="products-content">
-                                    <h1><?= esc($dish_name) ?></h1> <!-- Dish name -->
-                                    <div class="products-rating">
-                                        <p>Vanaf € <?= esc($dish_price) ?></p> <!-- Dish price -->
+                                    <h1><?= $dish_name_html ?></h1> <div class="products-rating">
+                                         <p><?= $price_display_html ?></p>
                                     </div>
                                 </div>
                                 <div class="products-buttoncontainer">
-                                    <a onclick="addToCart(<?= esc($dish['dish_id']) ?>, event, '<?= esc($dish['dish_name']) ?>', '<?= esc($dish['dish_price']) ?>', '<?= esc($dish['dish_img_src']) ?>'); return false;" class="products-button">
+                                    <a href="#" onclick="addToCart('<?= $dish_id_js ?>', event, '<?= $dish_name_js ?>', '<?= $dish_price_js ?>', '<?= $dish_img_src_js ?>'); return false;" class="products-button">
                                         <i class="fas fa-circle-plus"></i>
                                     </a>
                                 </div>
@@ -184,5 +192,4 @@
         </main>
     </div>
 </body>
-
 </html>

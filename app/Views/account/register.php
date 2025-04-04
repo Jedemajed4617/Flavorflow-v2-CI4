@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -15,6 +16,7 @@
     <link rel="shortcut icon" href="<?= base_url('img/f-logo.png') ?>" type="image/x-icon">
     <title>Flavorflow - De beste online bestel-app</title>
 </head>
+
 <body>
     <script>
         function submitRegisterForm(event) {
@@ -27,29 +29,97 @@
                 password: $("#password").val(),
                 pswrepeat: $("#pswrepeat").val(),
                 username: $("#username").val(),
-                phone: $("#phone").val()
+                phone: $("#phone").val(),
+                orderID: $("#orderID").val()
             };
 
             $.ajax({
-                url: "<?= site_url('account/create') ?>", // Adjust to your correct endpoint
+                url: "<?= site_url('account/create') ?>", 
                 type: "POST",
                 data: formData,
                 dataType: "json",
-                success: function (response) {
-                    if(response['status'] == 'success'){
+                success: function(response) {
+                    if (response['status'] == 'success') {
                         console.log('Helemaal prima');
                         window.location.href = "<?= site_url('profile') ?>";
-                    }else{
+                    } else {
                         showCustomMessage(response['message'], false);
                         formData.reset();
                         return;
                     }
                 },
-                error: function () {
+                error: function() {
                     showCustomMessage("Er is een fout opgetreden, probeer later opnieuw", false);
                 }
             });
         }
+
+        function getCookie(name) {
+            const nameEQ = name + "=";
+            const ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) === ' ') {
+                    c = c.substring(1, c.length);
+                }
+                if (c.indexOf(nameEQ) === 0) {
+                    return decodeURIComponent(c.substring(nameEQ.length, c.length));
+                }
+            }
+            return null;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const registerForm = document.getElementById('registerForm');
+            const fnameInput = document.getElementById('fname');
+            const lnameInput = document.getElementById('lname');
+            const emailInput = document.getElementById('email');
+            const phoneInput = document.getElementById('phone');
+
+            if (!registerForm || !fnameInput || !lnameInput || !emailInput || !phoneInput) {
+                console.error("Registration form or one of its fields not found.");
+                return;
+            }
+
+            const orderDataCookieString = getCookie('orderData');
+            if (orderDataCookieString) {
+                try {
+                    const orderData = JSON.parse(orderDataCookieString);
+
+                    if (orderData && typeof orderData === 'object') {
+                        if (orderData.hasOwnProperty('fname')) {
+                            fnameInput.value = orderData.fname;
+                        }
+                        if (orderData.hasOwnProperty('lname')) {
+                            lnameInput.value = orderData.lname;
+                        }
+                        if (orderData.hasOwnProperty('email')) {
+                            emailInput.value = orderData.email;
+                        }
+                        if (orderData.hasOwnProperty('phone')) {
+                            phoneInput.value = orderData.phone;
+                        }
+                    }
+
+                } catch (error) {
+                    console.error("Failed to parse orderData cookie JSON:", error, "\nCookie value:", orderDataCookieString);
+                }
+            }
+
+            const orderIdValue = getCookie('orderID');
+            if (orderIdValue) {
+                let hiddenInput = registerForm.querySelector('input[type="hidden"][name="orderID"]');
+
+                if (!hiddenInput) {
+                    hiddenInput = document.createElement('input');
+                    hiddenInput.type = 'hidden';
+                    hiddenInput.name = 'orderID';
+                    registerForm.appendChild(hiddenInput);
+                }
+                hiddenInput.value = orderIdValue;
+            }
+        });
     </script>
     <br>
     <br>
@@ -99,10 +169,11 @@
                     <input class="order-input valued-input" type="text" name="phone" id="phone" value="+3106 " required autocomplete="tel">
                     <p class="label">Telefoon</p>
                 </label>
+                <input type="hidden" name="orderID" id="orderID" value="">
                 <label for="submitbuttonregister" class="login-button">
                     <button id="submitbuttonregister" type="submit">Registreren</button>
                 </label>
-                
+
                 <div class="order-seperator">
                     <figure class="line"></figure>
                     <p class="order-seperatortext">Al een account bij ons?</p>
@@ -118,4 +189,5 @@
         </div>
     </main>
 </body>
+
 </html>

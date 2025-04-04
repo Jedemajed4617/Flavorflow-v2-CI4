@@ -92,7 +92,13 @@ $restaurant_id = $session->get('restaurant_id');
                 <i class="fas fa-times close-newaddress"></i>
             </header>
             <form onsubmit="return submitAddaddress(event);" class="gender-form" autocomplete="on">
-                <h2>Voeg een nieuw adres toe</h2>
+                <h2>Zoek uw adres op of vul hem zelfstandig in.</h2>
+                <label for="" class="order-phone">
+                    <input class="order-input" type="text" id="searchBargoogle" placeholder="Zoek uw adres (Voorbeeldstraat 1, Voorbeeld)" value="" required>
+                    <p class="label">Adres</p>
+                    <ul id="customDatalist" class="address-list hidden"></ul>
+                </label>
+                <h2 style="color: red;">Dubbel check uw adresgegevens!</h2>
                 <label for="province" class="order-phone seper">
                     <select class="order-input" name="province" id="province" required>
                         <option value="" disabled selected>Selecteer een provincie</option>
@@ -109,19 +115,19 @@ $restaurant_id = $session->get('restaurant_id');
                         <option value="Zeeland">Zeeland</option>
                         <option value="Zuid-Holland">Zuid-Holland</option>
                     </select>
-                    <p class="label">Provincie</p>
+                    <p class="label">Provincie *</p>
                 </label>
                 <label for="" class="order-phone seper">
                     <input class="order-input" type="text" name="city" id="city" autocomplete="address-level2" placeholder="Amsterdam" required>
-                    <p class="label">Plaatsnaam</p>
+                    <p class="label">Plaatsnaam *</p>
                 </label>
                 <label for="" class="order-phone seper">
                     <input class="order-input" type="text" name="streetname" id="streetname" autocomplete="address-line1" placeholder="Kerkstraat" required>
-                    <p class="label">Straatnaam</p>
+                    <p class="label">Straatnaam *</p>
                 </label>
                 <label for="" class="order-phone seper">
                     <input class="order-input" type="text" name="housenumber" id="housenumber" autocomplete="address-line2" placeholder="1" required>
-                    <p class="label">Huisnummer</p>
+                    <p class="label">Huisnummer *</p>
                 </label>
                 <label for="" class="order-phone seper">
                     <input class="order-input" type="text" name="housenumberaddition" id="housenumberaddition" autocomplete="address-line3" placeholder="A">
@@ -129,7 +135,7 @@ $restaurant_id = $session->get('restaurant_id');
                 </label>
                 <label for="" class="order-phone seper">
                     <input class="order-input" type="text" name="postalcode" id="postalcode" autocomplete="postal-code" placeholder="1234 AB" required>
-                    <p class="label">Postcode</p>
+                    <p class="label">Postcode *</p>
                 </label>
                 <label for="" class="order-phone seper">
                     <select class="order-input" name="addresstype" id="addresstype" required>
@@ -137,7 +143,7 @@ $restaurant_id = $session->get('restaurant_id');
                         <option value="factuuradres">Factuuradres</option>
                         <option value="bezorgadres">Bezorgadres</option>
                     </select>
-                    <p class="label">Adrestype</p>
+                    <p class="label">Adrestype *</p>
                 </label>
                 <input type="text" name="country" id="country" value="Nederland" hidden>
                 <button type="submit">Toevoegen</button>

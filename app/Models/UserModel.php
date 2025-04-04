@@ -31,8 +31,9 @@ class UserModel extends Model
         $password = $data['password'];
         $password_confirm = $data['pswrepeat'];
         $username = $data['username'];
+        $order_id = $data['orderID'];
         $phone = trim(str_replace(' ', '', $data['phone']));
-        $user_type = "klant";
+        $user_type = "customer";
         $gender = "";
         $profile_img_src = "";
 
@@ -58,14 +59,16 @@ class UserModel extends Model
             $message = "Wachtwoord moet minimaal 8 tekens bevatten.";
         }
 
-        if (substr($phone, 0, 5) !== '+3106') {
+        $prefix = substr($phone, 0, 4);
+
+        if ($prefix !== '+316' && $prefix !== '+3106') {
             $valid = 0;
-            $message = "Telefoonnummer moet beginnen met +3106.";
+            $message = "Telefoonnummer moet beginnen met +316 of +3106.";
         }
 
-        if (strlen($phone) !== 13) {
+        if (strlen($phone) !== 12) {
             $valid = 0;
-            $message = "Telefoonnummer moet 8 tekens bevatten.";
+            $message = "Telefoonnummer moet 7 tekens bevatten.";
         }
 
         $user_exist = $this->getUser($email);
@@ -98,10 +101,21 @@ class UserModel extends Model
                 'user_id' => $db->insertID(),
                 'user_type' => $user_type,
                 'username' => $username,
+                'fname' => $fname,
+                'lname' => $lname,
+                'phone' => $phone,
                 'email' => $email,
+                'gender' => $gender,
                 'logged_in' => true
             ]);
         }
+
+        $builder = $db->table('orders');
+        $builder->where('order_id', $order_id);
+        $builder->update([
+            'user_id' => $db->insertID()
+        ]);
+
         return array($valid, $message);
     }
 
@@ -181,6 +195,31 @@ class UserModel extends Model
         $query = $builder->get();
 
         // Convert result to an array
+        $orders = $query->getResultArray();
+        return $orders;
+    }
+
+    public function getOrders($user_id)
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('orders');
+        $builder->where('user_id', $user_id);
+
+        $builder->select('orders.order_id, orders.user_id, orders.order_date, orders.address, orders.payment_method, orders.fname, orders.lname, orders.email, orders.phone, orders.delivery_method, orders.order_delivery_note, orders.order_food_note, orders.restaurant_id');
+        $builder->select('SUM(order_dishes.price * order_dishes.quantity) AS total_order_price');
+
+        $builder->join('order_dishes', 'order_dishes.order_id = orders.order_id', 'left');
+
+        $builder->groupBy([
+            'orders.order_id', 'orders.user_id', 'orders.order_date', 'orders.address',
+            'orders.payment_method', 'orders.fname', 'orders.lname', 'orders.email',
+            'orders.phone', 'orders.delivery_method', 'orders.order_delivery_note', 'orders.order_food_note', 'orders.restaurant_id'
+        ]);
+
+        $builder->orderBy('orders.order_date', 'DESC');
+
+        // Convert result to an array
+        $query = $builder->get();
         $orders = $query->getResultArray();
         return $orders;
     }

@@ -219,34 +219,28 @@
     <div class="navbar-underlinecontainer">
         <figure class="navbar-underline"></figure>
     </div>
-    <div class="header-imgcontainer">
-        <figure class="header-imgheading">
-            <img class="header-img" src="./img/banner-food.webp" alt="foto header">
-        </figure>
-    </div>
-    <div class="header-contentcontainer">
-        <div class="header-content">
-            <div class="header-inputsection">
-                <div class="header-inputsectionHeading">
-                    <h1>Ontdek de mogelijkheden.</h1>
-                    <p>Zoek hier uw adres en begin met bestellen.</p>
-                </div>
-                <div class="header-inputcontainer">
-                    <input type="text" class="header-input" placeholder="Search for restaurants" required>
-                    <button class="header-button"><i class="fas fa-search"></i></button>
-                </div>
+    <div class="header-container-redesigned">
+        <div class="header-background">
+            <img class="header-background-image" src="<?= base_url('img/banner-food.webp') ?>" alt="Food Banner">
+            <div class="header-overlay"></div>
+            <div class="header-overlay-figure"></div>
+            <div class="header-overlay-figure2"></div>
+        </div>
+        <div class="header-content-redesigned">
+            <div class="header-text-redesigned">
+                <h1>Ontdek de mogelijkheden.</h1>
+                <p>Zoek hier uw adres en begin met bestellen.</p>
             </div>
-            <div class="header-linecontainer">
-                <figure class="middle-line"></figure>
-            </div>
-            <div class="header-imgsection">
-                <figure class="input-imgheading">
-                    <img class="input-img" src="./img/hamburger-sketch.jpg" alt="foto input">
-                </figure>
+            <div class="header-search-container">
+                <input type="text" class="header-search-input" placeholder="Zoek naar restaurants of gerechten" required>
+                <button onclick="window.location.href = '<?= site_url('restaurants') ?>'" class="header-search-button">
+                    <i class="fas fa-search"></i>
+                </button>
             </div>
         </div>
     </div>
 </header>
+
 <div class="navbar-underlinecontainer">
     <figure class="navbar-underline"></figure>
 </div>

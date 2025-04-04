@@ -35,24 +35,131 @@ document.addEventListener("DOMContentLoaded", function () {
     const searchBar = document.getElementById("searchBargoogle");
     const dataList = document.getElementById("customDatalist");
 
+    // --- Function to attempt parsing and filling the address form ---
+    function tryFillAddressForm(description) {
+        // Get references to the specific form fields, ONLY if they exist on the current page
+        const provinceSelect = document.getElementById('province');
+        const cityInput = document.getElementById('city');
+        const streetnameInput = document.getElementById('streetname');
+        const housenumberInput = document.getElementById('housenumber');
+        const housenumberadditionInput = document.getElementById('housenumberaddition');
+        const postalcodeInput = document.getElementById('postalcode');
+
+        // --- Reset fields first (optional, prevents partial data if parsing fails) ---
+        // We only reset if they exist
+        // if (provinceSelect) provinceSelect.value = ""; // Don't reset dropdown usually
+        if (cityInput) cityInput.value = "";
+        if (streetnameInput) streetnameInput.value = "";
+        if (housenumberInput) housenumberInput.value = "";
+        if (housenumberadditionInput) housenumberadditionInput.value = "";
+        if (postalcodeInput) postalcodeInput.value = "";
+
+        // --- Attempt to extract Postal Code (NNNN AA format) ---
+        let postalCode = null;
+        if (postalcodeInput) {
+            const postalCodeMatch = description.match(/(\d{4}\s?[A-Z]{2})/);
+            if (postalCodeMatch) {
+                postalCode = postalCodeMatch[1].replace(/\s/, ''); // Remove space for consistency
+                postalcodeInput.value = postalCode;
+            }
+        }
+
+        // --- !! Very Basic Attempt to Extract Other Parts - HIGHLY UNRELIABLE !! ---
+        // This part is prone to errors due to varying address formats. Use with caution.
+
+        // Try finding number (and maybe addition) often before a comma or postal code
+        let houseNumber = null;
+        let houseNumberAddition = null;
+        if (housenumberInput) {
+             // Regex looks for digits (\d+) possibly followed by space/letter ([A-Za-z]?)
+             // before a comma or the postal code (if found)
+            const numberRegex = new RegExp(`(\\d+)\\s?([A-Za-z])?(?=,\\s|\\s+${postalCode ? postalCode.substring(0,4) : ''})`);
+            const numberMatch = description.match(numberRegex);
+            if (numberMatch) {
+                houseNumber = numberMatch[1];
+                housenumberInput.value = houseNumber;
+                if (housenumberadditionInput && numberMatch[2]) {
+                    houseNumberAddition = numberMatch[2];
+                    housenumberadditionInput.value = houseNumberAddition;
+                }
+            }
+        }
+
+        // Try getting street - often text before house number
+        if (streetnameInput && houseNumber) {
+            // Take text before the found house number, trim whitespace/commas
+            const streetRegex = new RegExp(`^(.*?)(?=\\s+${houseNumber})`);
+            const streetMatch = description.match(streetRegex);
+             if (streetMatch && streetMatch[1]) {
+                 streetnameInput.value = streetMatch[1].replace(/,$/, '').trim();
+             }
+        }
+
+         // Try getting city - often text after postal code (if found) or before ", Netherlands"
+        if (cityInput) {
+            let cityMatch = null;
+            if (postalCode) {
+                 // Look for text between postal code and ", Netherlands" or end of string
+                 const cityRegex = new RegExp(`${postalCode}\\s+([^,]+)`);
+                 cityMatch = description.match(cityRegex);
+            } else {
+                 // Look for text before ", Netherlands" if no postal code found
+                 cityMatch = description.match(/([^,]+),\s+Netherlands$/);
+            }
+             if (cityMatch && cityMatch[1]) {
+                cityInput.value = cityMatch[1].trim();
+             }
+        }
+
+        // Province is almost impossible to parse reliably from description string.
+        // Leave the dropdown for the user to select.
+    }
+
+
+    // --- Main Event Listener Logic ---
     if (searchBar && dataList) {
         searchBar.addEventListener("input", function () {
             let query = searchBar.value;
 
-            if (query.length > 2) { // Only fetch when there's enough input
-                fetch(`/api/get-address-suggestions?query=${encodeURIComponent(query)}`)
-                    .then(response => response.json())
-                    .then(data => {
+            // Clear specific address fields whenever the user types in the main search bar
+            // Check if the fields exist before trying to clear
+             const fieldsToClear = ['province', 'city', 'streetname', 'housenumber', 'housenumberaddition', 'postalcode'];
+             fieldsToClear.forEach(id => {
+                 const field = document.getElementById(id);
+                 // Don't clear province dropdown selection, just text inputs
+                 if (field && field.type === 'text') {
+                     field.value = '';
+                 }
+             });
 
-                        dataList.innerHTML = ""; // Clearp revious suggestions
+
+            if (query.length > 2) {
+                // Use your existing API endpoint
+                fetch(`/api/get-address-suggestions?query=${encodeURIComponent(query)}`)
+                    .then(response => {
+                        // Basic error check for the fetch itself
+                        if (!response.ok) {
+                             throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                     })
+                    .then(data => {
+                        dataList.innerHTML = ""; // Clear previous suggestions
 
                         if (data.predictions && data.predictions.length > 0) {
                             data.predictions.forEach(prediction => {
                                 const li = document.createElement("li");
                                 li.textContent = prediction.description;
+                                // No need to store place_id if not using Place Details API
+                                // li.dataset.placeId = prediction.place_id;
+
                                 li.addEventListener("click", function () {
-                                    searchBar.value = prediction.description;
-                                    dataList.classList.add("hidden");
+                                    const selectedDescription = this.textContent;
+                                    searchBar.value = selectedDescription; // Set main search bar value
+                                    dataList.classList.add("hidden"); // Hide list
+
+                                    // --- Call the function to try filling the form ---
+                                    tryFillAddressForm(selectedDescription);
                                 });
                                 dataList.appendChild(li);
                             });
@@ -67,27 +174,33 @@ document.addEventListener("DOMContentLoaded", function () {
                     })
                     .catch(error => {
                         console.error("Error fetching address suggestions:", error);
+                        // Display error in the datalist
+                         dataList.innerHTML = '<li class="no-results">Fout bij ophalen adressen</li>';
+                         dataList.classList.remove("hidden");
                     });
             } else {
                 dataList.classList.add("hidden");
             }
         });
 
-        // Hide the data list when clicking outside
         document.addEventListener("click", (e) => {
-            if (!searchBar.contains(e.target) && !dataList.contains(e.target)) {
+            if (searchBar && dataList && !searchBar.contains(e.target) && !dataList.contains(e.target)) {
                 dataList.classList.add("hidden");
             }
         });
 
-        // Hide the datalist when the user presses enter
         searchBar.addEventListener("keydown", function(event){
             if(event.key === "Enter"){
-                dataList.classList.add("hidden");
+                 if (dataList && !dataList.classList.contains("hidden")) {
+                      event.preventDefault(); // Stop potential form submission
+                      dataList.classList.add("hidden");
+                 }
             }
         });
     } else {
-        console.warn("Elements not found: #searchBargoogle or #customDatalist");
+        // Only warn if the primary search bar/datalist are missing
+        if (!searchBar) console.warn("Element not found: #searchBargoogle");
+        if (!dataList) console.warn("Element not found: #customDatalist");
     }
 });
 
@@ -470,34 +583,6 @@ function openDeleteAddress(addressId) {
     document.getElementById("addressid").value = addressId; // Set hidden input value
 
     openPopup("usernamecontainer", "close-username");
-}
-
-// CART ANIM
-function openCart(extraCallback = null) {
-    const cartContainer = document.querySelector(".cartcontainer");
-    const cart = cartContainer?.querySelector(".popup"); // Assuming `.popup` is the cart itself
-    const closeCartButton = document.querySelector(".close-cart");
-
-    if (!cartContainer || !closeCartButton) return;
-
-    cartContainer.style.display = "flex"; // Ensure container is visible
-
-    setTimeout(() => {
-        cart?.classList.add("open");
-    }, 10);
-
-    closeCartButton.addEventListener("click", () => {
-        cart?.classList.remove("open");
-
-        setTimeout(() => {
-            cartContainer.style.display = "none";
-            document.body.style.overflow = "auto"; // Restore scrolling after closing
-        }, 300);
-    });
-
-    document.body.style.overflow = "hidden"; // Prevent scrolling when cart is open
-
-    if (extraCallback) extraCallback();
 }
 
 function changeOrAddProfileImg(event) {

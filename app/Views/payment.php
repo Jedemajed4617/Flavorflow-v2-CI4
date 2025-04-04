@@ -101,6 +101,7 @@
                     if(response['status'] == 'success') {
                         showCustomMessage("Bestelling succesvol geplaatst!", true); 
                         console.log('helemaal piema')
+                        document.cookie = `orderID=${response['orderid']}; path=/;`;
                         setTimeout(() => {
                             window.location.href = "<?= site_url('/ordersummary') ?>"; 
                         }, 2000);

@@ -177,54 +177,41 @@ $restaurant_id = $session->get('restaurant_id');
                 </header>
                 <ul class="order-info-headers">
                     <li class="order-info-header">
-                        <b>Ordernr</b>
+                        <b>OrderNr</b>
                     </li>
                     <li class="order-info-header">
-                        <b>Restaurant</b>
+                        <b>Methode</b>
                     </li>
                     <li class="order-info-header">
-                        <b>Categorie</b>
+                        <b>Datum</b>
                     </li>
                     <li class="order-info-header">
-                        <b>Status</b>
+                        <b>Adres</b>
                     </li>
                     <li class="order-info-header">
                         <b>Prijs</b>
                     </li>
                 </ul>
                 <ul class="profile-info-list">
-                    <li class="order-info-listitem">
-                        <p>#0004</p>
-                        <p>Eetcafe De Kwikkel</p>
-                        <p>Pizza, Pasta</p>
-                        <p>Onderweg</p>
-                        <p>12.34</p>
-                        <a href="">Meer info</a>
-                    </li>
-                    <li class="order-info-listitem">
-                        <p>#0003</p>
-                        <p>Bij Oost</p>
-                        <p>Sushirolls</p>
-                        <p>Afgeleverd</p>
-                        <p>12.34</p>
-                        <a href="">Meer info</a>
-                    </li>
-                    <li class="order-info-listitem">
-                        <p>#0002</p>
-                        <p>New York Pizza</p>
-                        <p>Pizza</p>
-                        <p>Afgeleverd</p>
-                        <p>12.34</p>
-                        <a href="">Meer info</a>
-                    </li>
-                    <li class="order-info-listitem">
-                        <p>#0001</p>
-                        <p>Rumours</p>
-                        <p>Noodles, Biefstuk</p>
-                        <p>Afgeleverd</p>
-                        <p>12.34</p>
-                        <a href="">Meer info</a>
-                    </li>
+                    <?php if (!empty($orders)): ?>
+                        <?php foreach($orders as $order): 
+                            
+                        $total_price_raw = $order['total_order_price'] ?? 0;
+                        $total_price_formatted = number_format($total_price_raw, 2, ',', '.');                            
+    
+                        ?>
+                        <li class="order-info-listitem">
+                            <p><?= esc($order['order_id']); ?></p>
+                            <p><?= esc($order['payment_method']); ?></p>
+                            <p><?= esc($order['order_date']); ?></p>
+                            <p><?= esc($order['address']); ?></p>
+                            <p>€<?= esc($total_price_formatted); ?></p>
+                            <a href="<?= site_url('ordersummary/' . $order['order_id']) ?>">Meer info</a>
+                        </li>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p>Nog geen bestellingen gevonden</p>
+                    <?php endif; ?>
                 </ul>
             </div>
         </section>

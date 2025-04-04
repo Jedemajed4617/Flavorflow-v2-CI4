@@ -219,10 +219,31 @@
     <div class="navbar-underlinecontainer">
         <figure class="navbar-underline"></figure>
     </div>
-    <div class="header-imgcontainer">
-        <figure class="header-imgheading">
-            <img class="header-img" src="<?= base_url('img/banner-food.webp') ?>" alt="foto header">
-        </figure>
+    <div class="header-container-redesigned">
+        <div class="header-background">
+            <img class="header-background-image" src="<?= base_url('img/banner-food.webp') ?>" alt="Food Banner">
+            <div class="header-overlay"></div>
+            <div class="header-overlay-figure"></div>
+            <div class="header-overlay-figure2"></div>
+        </div>
+        <div class="header-content-redesigned">
+            <div class="header-text-redesigned">
+                <h1>Ontdek de mogelijkheden.</h1>
+                <p>Zoek hier uw adres en begin met bestellen.</p>
+            </div>
+            <div class="header-search-container">
+                <input type="text" class="header-search-input" placeholder="Zoek naar restaurants of gerechten" required>
+                <button onclick="window.location.href = '<?= site_url('restaurants') ?>'" class="header-search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+        <div class="header-content-redesigned2">
+            <div class="header-text-redesigned2">
+                <h1>Ontdek de mogelijkheden.</h1>
+                <p>Vul uw gegevens in om door te gaan.</p>
+            </div>
+        </div>
     </div>
 </header>
 <div class="navbar-underlinecontainer">
