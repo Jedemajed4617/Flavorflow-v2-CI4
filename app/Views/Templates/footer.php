@@ -1,3 +1,6 @@
+<div class="navbar-underlinecontainer">
+    <figure class="navbar-underline" style="width: 95%;"></figure>
+</div>
 <div class="footer-container">
     <div class="footer-top">
         <aside class="footer-about">
@@ -66,8 +69,10 @@
             </form>
         </aside>
     </div>
+    <div class="navbar-underlinecontainer">
+        <figure class="navbar-underline" style="width: 95%;"></figure>
+    </div>
     <div class="footer-bottom">
-        <hr class="footer-divider">
         <p class="footer-copyright-text">&copy; 2025 Flavorflow. Alle rechten voorbehouden.</p>
     </div>
 </div>
