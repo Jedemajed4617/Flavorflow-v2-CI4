@@ -38,7 +38,7 @@ $restaurant_id = $session->get('restaurant_id');
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover user-scalable=no">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://kit.fontawesome.com/5a883bd754.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="<?= base_url('css/index.css') ?>">
@@ -50,7 +50,7 @@ $restaurant_id = $session->get('restaurant_id');
     <script src="<?= base_url('js/cart-logic.js') ?>" defer></script>
     <script src="<?= base_url('js/main.js') ?>" defer></script>
     <title>Flavorflow - De beste online bestel-app</title>
-    <link rel="shortcut icon" href="<?= base_url('img/f-logo.png') ?>" type="image/x-icon">
+    <link rel="shortcut icon" href="<?= base_url('img/F-logo.png') ?>" type="image/x-icon">
 </head>
 
 <body>
@@ -123,7 +123,7 @@ $restaurant_id = $session->get('restaurant_id');
                 </div>
 
                 <div class="order-checkout-section order-form">
-                    <button type="submit" class="order-submit">
+                    <button type="button" onclick="return saveOrderToCookie(event);" class="order-submit">
                         Betaalmethode selecteren <span class="totalprice-order">(€ 0,00)</span>
                     </button>
                 </div>

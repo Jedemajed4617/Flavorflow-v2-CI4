@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover user-scalable=no">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/css/order.css">
     <link rel="stylesheet" href="/css/payment.css">
@@ -40,7 +40,12 @@
                 dataType: "json",
                 success: function(response) {
                     if (response['status'] == 'success') {
-                        console.log('Helemaal prima');
+                        if (response['orderid'] != 0) {
+                            console.log('Helemaal piem');
+                            document.cookie = "orderData=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                            document.cookie = "orderID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                            document.cookie = "deliverMethod=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                        }
                         window.location.href = "<?= site_url('profile') ?>";
                     } else {
                         showCustomMessage(response['message'], false);

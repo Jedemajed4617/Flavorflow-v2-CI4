@@ -165,15 +165,13 @@
             </ul>
             <footer class="menu-footercontainer">
                 <ul class="menu-footer">
-                    <?php
-                    if (isset($_SESSION['username'])) {
-                        echo "<li><a href='site_url('profile')' class='menu-link'>Account</a><i class='fas fa-arrow-right'></i></li>";
-                        echo "<li><a href='base_url('logout')' class='menu-link'>Logout</a><i class='fas fa-arrow-right'></i></li>";
-                    } else {
-                        echo "<li><a href='site_url('account/index')' class='menu-link'>Login</a><i class='fas fa-arrow-right'></i></li>";
-                        echo "<li><a href='site_url('account/register')' class='menu-link'>Register</a><i class='fas fa-arrow-right'></i></li>";
-                    }
-                    ?>
+                    <?php if (isset($_SESSION['logged_in'])): ?>
+                        <li><a href="<?= site_url('profile') ?>" class="menu-link">Account</a><i class="fas fa-arrow-right"></i></li>
+                        <li><a href="<?= base_url('logout') ?>" class="menu-link">Logout</a><i class="fas fa-arrow-right"></i></li>
+                    <?php else: ?>
+                        <li><a href="<?= site_url('account') ?>" class="menu-link">Login</a><i class="fas fa-arrow-right"></i></li>
+                        <li><a href="<?= site_url('account/register') ?>" class="menu-link">Register</a><i class="fas fa-arrow-right"></i></li>
+                    <?php endif; ?>
                     <li><a href="#" class="menu-link">Nederlands</a><i class="fas fa-arrow-right"></i></li>
                 </ul>
             </footer>

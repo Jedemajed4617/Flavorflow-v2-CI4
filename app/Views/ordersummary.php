@@ -3,17 +3,17 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover user-scalable=no">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="<?= base_url('css/index.css') ?>">
     <link rel="stylesheet" href="<?= base_url('css/restaurant.css') ?>">
     <link rel="stylesheet" href="<?= base_url('css/cart.css') ?>">
     <link rel="stylesheet" href="<?= base_url('css/password-change.css') ?>">
-    <link rel="stylesheet" href="/css/profile.css" />
+    <link rel="stylesheet" href="<?= base_url('css/profile.css') ?>" />
     <script src="<?= base_url('js/functions.js') ?>" defer></script>
     <script src="<?= base_url('js/main.js') ?>" defer></script>
     <title>Flavorflow - De beste online bestel-app</title>
-    <link rel="shortcut icon" href="<?= base_url('img/f-logo.png') ?>" type="image/x-icon">
+    <link rel="shortcut icon" href="<?= base_url('img/F-logo.png') ?>" type="image/x-icon">
 </head>
 
 <body>

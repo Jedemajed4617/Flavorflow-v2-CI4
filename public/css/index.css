@@ -519,7 +519,6 @@ input[type="checkbox"] {
 }
 
 .header-content-redesigned, .header-content-redesigned2 {
-    width: 95%;
     max-width: 1200px; /* Optional: Limit the width of the content */
     min-height: 150px;
     display: flex;
@@ -547,12 +546,12 @@ input[type="checkbox"] {
 
 .header-search-container {
     position: relative;
-    width: 90%;
-    max-width: 600px; /* Limit the width of the search bar */
+    max-width: 600px; 
+    min-width: 200px;
 }
 
 .header-search-input {
-    width: 100%;
+    width: 350px; /* Adjusted width */
     padding: 1rem;
     border: none;
     border-radius: 5rem;
@@ -560,6 +559,12 @@ input[type="checkbox"] {
     font-size: 1.3rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     color: black;
+}
+
+@media screen and (max-width: 400px){
+    .header-search-input {
+        width: 200px; /* Adjusted width */
+    }
 }
 
 .header-search-input::placeholder {

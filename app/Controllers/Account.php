@@ -38,7 +38,7 @@ class Account extends BaseController
         $UserModel = new UserModel();
         $result = $UserModel->createUser($data);
         if($result[0] == 1){
-            echo json_encode(['status' => 'success']);
+            echo json_encode(['status' => 'success', 'orderid' => $result[2]]);
         } else {
             echo json_encode(['status' => 'error', 'message' => $result[1]]);
         }

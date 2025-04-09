@@ -16,6 +16,11 @@
 </head>
 
 <body>
+    <style>
+        .header-text-redesigned2{
+            display: none !important;
+        }
+    </style>
     <div id="message-container" class="message-container"></div>
     <div class="restaurant-container">
         <main class="restaurant">

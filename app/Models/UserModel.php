@@ -110,13 +110,17 @@ class UserModel extends Model
             ]);
         }
 
-        $builder = $db->table('orders');
-        $builder->where('order_id', $order_id);
-        $builder->update([
-            'user_id' => $db->insertID()
-        ]);
+        if (!empty($order_id)) {
+            $builder = $db->table('orders');
+            $builder->where('order_id', $order_id);
+            $builder->update([
+                'user_id' => $session->get('user_id')
+            ]);
+        } else{
+            $order_id = 0;
+        }
 
-        return array($valid, $message);
+        return array($valid, $message, $order_id);
     }
 
     public function processUserLogin($data)
